@@ -4,6 +4,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:real_sokost/rating_item.dart';
+import 'facility_item.dart';
 import 'theme.dart';
 
 class DetailKost extends StatefulWidget {
@@ -50,6 +51,8 @@ class _DetailKostState extends State<DetailKost> {
   Widget build(BuildContext context) {
     var ratingbase = widget.rating;
     var rating_akhir = double.tryParse(ratingbase);
+    var nobdbase = widget.numberOfBedrooms;
+    var nobd_akhir = int.parse(nobdbase);
     return Scaffold(
       // appBar: AppBar(
       //   backgroundColor: Colors.white,
@@ -136,25 +139,43 @@ class _DetailKostState extends State<DetailKost> {
                                 ),
                               ],
                             ),
-                            Row(
-                              children: [1, 2, 3, 4, 5].map((index) {
-                                return Container(
-                                  // ignore: prefer_const_constructors
-                                  margin: EdgeInsets.only(
-                                    left: 2,
-                                  ),
-                                  child: RatingItem(
-                                    index: index,
-                                    rating: rating_akhir,
-                                  ),
-                                );
-                              }).toList(),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      widget.rating,
+                                      style:
+                                          blackTextStyle.copyWith(fontSize: 16),
+                                    ),
+                                    Text(
+                                      " (188)",
+                                      style:
+                                          greyTextStyle.copyWith(fontSize: 14),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [1, 2, 3, 4, 5].map((index) {
+                                    return Container(
+                                      // ignore: prefer_const_constructors
+                                      margin: EdgeInsets.only(
+                                        left: 2,
+                                      ),
+                                      child: RatingItem(
+                                        index: index,
+                                        rating: rating_akhir,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       // NOTE: MAIN FACILITIES
                       Padding(
@@ -167,40 +188,27 @@ class _DetailKostState extends State<DetailKost> {
                         ),
                       ),
                       const SizedBox(
-                        height: 12,
+                        height: 8,
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: edge),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  'assets/${widget.imageUrl}',
-                                  width: 50,
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text.rich(
-                                  TextSpan(
-                                    text: '${widget.name}',
-                                    style: purpleTextStyle.copyWith(
-                                      fontSize: 14,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: ' ${widget.name}',
-                                        style: greyTextStyle.copyWith(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            FacilityItem(
+                              name: 'kitchen',
+                              imageUrl: 'assets/icon_kitchen.png',
+                              total: nobd_akhir,
+                            ),
+                            FacilityItem(
+                              name: 'bedroom',
+                              imageUrl: 'assets/icon_bedroom.png',
+                              total: nobd_akhir,
+                            ),
+                            FacilityItem(
+                              name: 'Lemari',
+                              imageUrl: 'assets/icon_cupboard.png',
+                              total: nobd_akhir,
                             ),
                           ],
                         ),
