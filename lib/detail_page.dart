@@ -1,6 +1,9 @@
 // ignore_for_file: unnecessary_string_interpolations, unnecessary_const
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:real_sokost/rating_item.dart';
 import 'theme.dart';
 
 class DetailKost extends StatefulWidget {
@@ -45,25 +48,27 @@ class DetailKost extends StatefulWidget {
 class _DetailKostState extends State<DetailKost> {
   @override
   Widget build(BuildContext context) {
+    var ratingbase = widget.rating;
+    var rating_akhir = double.tryParse(ratingbase);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: Text(
-          'Detail Page',
-          style: blackTextStyle.copyWith(fontSize: 22),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0.0,
+      //   centerTitle: true,
+      //   leading: IconButton(
+      //     icon: const Icon(
+      //       Icons.arrow_back,
+      //       color: Colors.black,
+      //     ),
+      //     onPressed: () {
+      //       Navigator.of(context).pop();
+      //     },
+      //   ),
+      //   title: Text(
+      //     'Detail Page',
+      //     style: blackTextStyle.copyWith(fontSize: 22),
+      //   ),
+      // ),
       backgroundColor: whiteColor,
       body: SafeArea(
         bottom: false,
@@ -73,31 +78,8 @@ class _DetailKostState extends State<DetailKost> {
               'assets/${widget.imageUrl}',
               width: MediaQuery.of(context).size.width,
               height: 350,
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             ),
-
-            // Row(
-            //   children: [
-            //     Stack(
-            //       children: [
-            //         Image.asset(
-            //           'assets/${widget.imageUrl}',
-            //           width: MediaQuery.of(context).size.width,
-            //           height: 350,
-            //           fit: BoxFit.cover,
-            //         ),
-            //         IconButton(
-            //           onPressed: () {},
-            //           icon: const Icon(
-            //             Icons.arrow_back,
-            //             size: 50,
-            //             color: Color.fromARGB(255, 51, 33, 243),
-            //           ),
-            //         )
-            //       ],
-            //     )
-            //   ],
-            // ),
             ListView(
               children: [
                 const SizedBox(
@@ -109,6 +91,7 @@ class _DetailKostState extends State<DetailKost> {
                     borderRadius: BorderRadius.vertical(
                       top: Radius.circular(20),
                     ),
+                    color: Color(0xffFFFFFF),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,19 +136,20 @@ class _DetailKostState extends State<DetailKost> {
                                 ),
                               ],
                             ),
-                            // Row(
-                            //   children: [1, 2, 3, 4, 5].map((index) {
-                            //     return Container(
-                            //       margin: EdgeInsets.only(
-                            //         left: 2,
-                            //       ),
-                            //       child: RatingItem(
-                            //         index: index,
-                            //         rating: widget.space.rating,
-                            //       ),
-                            //     );
-                            //   }).toList(),
-                            // ),
+                            Row(
+                              children: [1, 2, 3, 4, 5].map((index) {
+                                return Container(
+                                  // ignore: prefer_const_constructors
+                                  margin: EdgeInsets.only(
+                                    left: 2,
+                                  ),
+                                  child: RatingItem(
+                                    index: index,
+                                    rating: rating_akhir,
+                                  ),
+                                );
+                              }).toList(),
+                            ),
                           ],
                         ),
                       ),
