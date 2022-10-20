@@ -115,7 +115,7 @@ class _DetailKostState extends State<DetailKost> {
                                 Text(
                                   widget.name,
                                   style: blackTextStyle.copyWith(
-                                    fontSize: 22,
+                                    fontSize: 18,
                                   ),
                                 ),
                                 const SizedBox(
@@ -146,12 +146,12 @@ class _DetailKostState extends State<DetailKost> {
                                     Text(
                                       widget.rating,
                                       style:
-                                          blackTextStyle.copyWith(fontSize: 16),
+                                          blackTextStyle.copyWith(fontSize: 13),
                                     ),
                                     Text(
                                       " (188)",
                                       style:
-                                          greyTextStyle.copyWith(fontSize: 14),
+                                          greyTextStyle.copyWith(fontSize: 12),
                                     )
                                   ],
                                 ),
@@ -212,11 +212,70 @@ class _DetailKostState extends State<DetailKost> {
                             ),
                           ],
                         ),
-                      )
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: edge),
+                        child: Text(
+                          'Photos',
+                          style: regularTextStyle.copyWith(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
                     ],
                   ),
                 ),
               ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: edge,
+                vertical: 30,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/btn_back.png',
+                      width: 40,
+                    ),
+                  ),
+                  // Image.asset(
+                  //   'assets/btn_wishlist.png',
+                  //   width: 40,
+                  // ),
+                  if (widget.status == "1")
+                    InkWell(
+                      onTap: () {
+                        print("Ini aktiv");
+                      },
+                      child: Image.asset(
+                        'assets/btn_wishlist_active.png',
+                        width: 40,
+                      ),
+                    ),
+                  if (widget.status != "1")
+                    InkWell(
+                      onTap: () {
+                        print("ini tidak aktiv");
+                      },
+                      child: Image.asset(
+                        'assets/btn_wishlist.png',
+                        width: 40,
+                      ),
+                    ),
+                ],
+              ),
             ),
           ],
         ),
