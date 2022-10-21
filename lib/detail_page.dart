@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_string_interpolations, unnecessary_const
+// ignore_for_file: unnecessary_string_interpolations, unnecessary_const, deprecated_member_use
 
 import 'dart:ffi';
 
@@ -227,6 +227,95 @@ class _DetailKostState extends State<DetailKost> {
                       ),
                       const SizedBox(
                         height: 12,
+                      ),
+                      SizedBox(
+                        height: 88,
+                        child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              Container(
+                                // ignore: prefer_const_constructors
+                                margin: EdgeInsets.only(
+                                  left: 24,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image.asset(
+                                    "assets/photo1.png",
+                                    width: 110,
+                                    height: 88,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            ]),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: edge),
+                        child: Text(
+                          'Location',
+                          style: regularTextStyle.copyWith(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: edge),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${widget.address}\n${widget.city}',
+                              style: greyTextStyle,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                // // launchUrl(
+                                // //     'https://goo.gl/maps/SyZx2yjWB1yR6AeH8');
+
+                                // launchUrl(widget.mapUrl);
+                              },
+                              child: Image.asset(
+                                'assets/btn_map.png',
+                                width: 40,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: edge,
+                        ),
+                        height: 45,
+                        width: MediaQuery.of(context).size.width - (2 * edge),
+                        child: FlatButton(
+                          onPressed: () {
+                            // handleBook(widget.space);
+                          },
+                          color: purpleColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(17),
+                          ),
+                          child: Text(
+                            'Book Now',
+                            style: whiteTextStyle.copyWith(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 40,
                       ),
                     ],
                   ),
