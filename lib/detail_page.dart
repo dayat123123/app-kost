@@ -97,7 +97,7 @@ class _DetailKostState extends State<DetailKost> {
             ListView(
               children: [
                 const SizedBox(
-                  height: 328,
+                  height: 300,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
