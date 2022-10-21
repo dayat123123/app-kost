@@ -50,7 +50,7 @@ class DetailKost extends StatefulWidget {
 class _DetailKostState extends State<DetailKost> {
   void googleMapada() async {
     String googleUrl =
-        "https://www.google.com/maps/search/?api=1&query=${widget.mapUrl}";
+        "https://www.google.com/maps/search/?api=1&query=${widget.address}";
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {
