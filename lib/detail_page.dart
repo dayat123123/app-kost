@@ -1,9 +1,10 @@
-// ignore_for_file: unnecessary_string_interpolations, unnecessary_const, deprecated_member_use
+// ignore_for_file: unnecessary_string_interpolations, unnecessary_const, deprecated_member_use, non_constant_identifier_names
 
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:real_sokost/rating_item.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'facility_item.dart';
 import 'theme.dart';
 
@@ -47,6 +48,16 @@ class DetailKost extends StatefulWidget {
 }
 
 class _DetailKostState extends State<DetailKost> {
+  void googleMapada() async {
+    String googleUrl =
+        "https://www.google.com/maps/search/?api=1&query=${widget.mapUrl}";
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw ("Could't open google maps");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var ratingbase = widget.rating;
@@ -276,10 +287,7 @@ class _DetailKostState extends State<DetailKost> {
                             ),
                             InkWell(
                               onTap: () {
-                                // // launchUrl(
-                                // //     'https://goo.gl/maps/SyZx2yjWB1yR6AeH8');
-
-                                // launchUrl(widget.mapUrl);
+                                googleMapada();
                               },
                               child: Image.asset(
                                 'assets/btn_map.png',
