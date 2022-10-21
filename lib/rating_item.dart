@@ -4,7 +4,7 @@ class RatingItem extends StatelessWidget {
   final int index;
   final double rating;
 
-  RatingItem({this.index, this.rating});
+  const RatingItem({Key key, this.index, this.rating}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

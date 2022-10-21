@@ -7,6 +7,7 @@ import 'package:real_sokost/rating_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'facility_item.dart';
 import 'theme.dart';
+import 'package:flutter_launch/flutter_launch.dart';
 
 class DetailKost extends StatefulWidget {
   final String id;
@@ -307,8 +308,12 @@ class _DetailKostState extends State<DetailKost> {
                         height: 45,
                         width: MediaQuery.of(context).size.width - (2 * edge),
                         child: FlatButton(
-                          onPressed: () {
-                            // handleBook(widget.space);
+                          onPressed: () async {
+                            await FlutterLaunch.launchWhatsapp(
+                              phone: '6282388623670',
+                              message:
+                                  'Hi ${widget.id},Saya mau order ${widget.name} untuk hari ini, apakah tersedia?',
+                            );
                           },
                           color: purpleColor,
                           shape: RoundedRectangleBorder(
