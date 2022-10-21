@@ -92,7 +92,7 @@ class _DetailKostState extends State<DetailKost> {
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
+                      top: Radius.circular(50),
                     ),
                     color: Color(0xffFFFFFF),
                   ),
@@ -219,7 +219,7 @@ class _DetailKostState extends State<DetailKost> {
                       Padding(
                         padding: EdgeInsets.only(left: edge),
                         child: Text(
-                          'Photos',
+                          'Photo',
                           style: regularTextStyle.copyWith(
                             fontSize: 16,
                           ),
@@ -256,7 +256,7 @@ class _DetailKostState extends State<DetailKost> {
                       Padding(
                         padding: EdgeInsets.only(left: edge),
                         child: Text(
-                          'Location',
+                          'Lokasi',
                           style: regularTextStyle.copyWith(
                             fontSize: 16,
                           ),
