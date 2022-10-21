@@ -315,9 +315,61 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Row(
                   children: [
-                    Image.asset(
-                      'assets/${space.imageUrl}',
-                      width: 90,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(18),
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Image.asset(
+                                'assets/${space.imageUrl}',
+                                width: 90,
+                              ),
+                              if (space.status != "1")
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 50,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: purpleColor,
+                                      borderRadius: const BorderRadius.only(
+                                        // ignore: unnecessary_const
+                                        bottomRight: Radius.circular(36),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child:
+                                          Image.asset('assets/icon_star.png'),
+                                    ),
+                                  ),
+                                ),
+                              // if (space.status == "2")
+                              //   Align(
+                              //     alignment: Alignment.topRight,
+                              //     child: Container(
+                              //       width: 50,
+                              //       height: 30,
+                              //       decoration: BoxDecoration(
+                              //         color: purpleColor,
+                              //         borderRadius: const BorderRadius.only(
+                              //           // ignore: unnecessary_const
+                              //           bottomRight: Radius.circular(36),
+                              //         ),
+                              //       ),
+                              //       child: Center(
+                              //         child:
+                              //             Image.asset('assets/icon_star.png'),
+                              //       ),
+                              //     ),
+                              //   ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 31,
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       width: 16,
@@ -327,10 +379,10 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Text(
                           space.name,
-                          style: blackTextStyle.copyWith(fontSize: 16),
+                          style: blackTextStyle.copyWith(fontSize: 14),
                         ),
                         const SizedBox(
-                          height: 2.5,
+                          height: 1.5,
                         ),
                         Text(
                           "Rp. ${space.price}",
@@ -344,7 +396,11 @@ class _HomePageState extends State<HomePage> {
                           space.address,
                           style: greyTextStyle.copyWith(fontSize: 13),
                         ),
-                        const SizedBox(height: 10)
+                        // Text(
+                        //   "Gender : ${space.id}",
+                        //   style: greyTextStyle.copyWith(fontSize: 13),
+                        // ),
+                        const SizedBox(height: 30)
                       ],
                     ),
                     const Spacer(),
