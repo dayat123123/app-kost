@@ -36,7 +36,6 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
     _list.clear();
     var url = 'http://sofiaal.slkbankum.com/api/list_kost.php';
     var response = await http.get(Uri.parse(url));
-
     if (response.statusCode == 200) {
       final data2 = json.decode(response.body);
       final data = data2.where((data2) => data2['id'] == widget.id);
