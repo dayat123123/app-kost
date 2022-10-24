@@ -46,6 +46,6 @@ class Space {
         numberOfBedrooms: json['numberOfBedrooms'],
         numberOfCupboards: json[' numberOfCupboards'],
         numberOfKitchens: json['numberOfKitchens'],
-        status: json['numberOfKitchens'],
+        status: json['status'],
       );
 }

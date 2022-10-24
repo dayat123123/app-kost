@@ -325,7 +325,7 @@ class _HomePageState extends State<HomePage> {
                                 'assets/${space.imageUrl}',
                                 width: 90,
                               ),
-                              if (space.status != "1")
+                              if (space.status == "Cowok")
                                 Align(
                                   alignment: Alignment.topRight,
                                   child: Container(
@@ -340,32 +340,35 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     child: Center(
                                       child: Image.asset(
-                                        'assets/man (2).png',
+                                        'assets/ml.png',
                                         height: 23,
                                         width: 35,
                                       ),
                                     ),
                                   ),
                                 ),
-                              // if (space.status == "2")
-                              //   Align(
-                              //     alignment: Alignment.topRight,
-                              //     child: Container(
-                              //       width: 50,
-                              //       height: 30,
-                              //       decoration: BoxDecoration(
-                              //         color: purpleColor,
-                              //         borderRadius: const BorderRadius.only(
-                              //           // ignore: unnecessary_const
-                              //           bottomRight: Radius.circular(36),
-                              //         ),
-                              //       ),
-                              //       child: Center(
-                              //         child:
-                              //             Image.asset('assets/icon_star.png'),
-                              //       ),
-                              //     ),
-                              //   ),
+                              if (space.status == "Cewek")
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 50,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: purpleColor,
+                                      borderRadius: const BorderRadius.only(
+                                        // ignore: unnecessary_const
+                                        bottomRight: Radius.circular(36),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Image.asset(
+                                        'assets/woman12.png',
+                                        height: 23,
+                                        width: 35,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
                           const SizedBox(
