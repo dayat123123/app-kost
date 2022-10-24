@@ -339,8 +339,11 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                     child: Center(
-                                      child:
-                                          Image.asset('assets/icon_star.png'),
+                                      child: Image.asset(
+                                        'assets/man (2).png',
+                                        height: 23,
+                                        width: 35,
+                                      ),
                                     ),
                                   ),
                                 ),
