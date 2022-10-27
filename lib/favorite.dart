@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 
 class FavPage extends StatefulWidget {
   const FavPage({Key key}) : super(key: key);
-
   @override
   State<FavPage> createState() => _FavPageState();
 }
