@@ -27,7 +27,11 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+           
+            
         </activity>
+         <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyB6QG-pqKptJ0G8pPfo2Ndxc2q4cHctT0E"/>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

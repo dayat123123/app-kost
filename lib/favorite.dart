@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'button_navbar_item.dart';
+import 'detail_page.dart';
+import 'fav_space.dart';
 import 'homepage.dart';
 // import 'space.dart';
 import 'theme.dart';
@@ -14,16 +16,13 @@ class FavPage extends StatefulWidget {
 }
 
 class _FavPageState extends State<FavPage> {
-  List kecamatan;
-  bool loading = true;
-  getkecamatan() async {
+  Future<List<FavSpace>> getFav() async {
     final response = await http
-        .get(Uri.parse('http://sofiaal.slkbankum.com/api/kecamatan.php'));
+        .get(Uri.parse('http://sofiaal.slkbankum.com/api/list_favkost.php'));
+
     if (response.statusCode == 200) {
-      setState(() {
-        kecamatan = jsonDecode(response.body);
-        loading = false;
-      });
+      List jsonResponse = jsonDecode(response.body);
+      return jsonResponse.map((data) => FavSpace.fromJson(data)).toList();
     } else {
       throw Exception("Failed to load data");
     }
@@ -32,7 +31,6 @@ class _FavPageState extends State<FavPage> {
   @override
   void initState() {
     super.initState();
-    getkecamatan();
   }
 
   @override
@@ -68,49 +66,29 @@ class _FavPageState extends State<FavPage> {
             const SizedBox(
               height: 16,
             ),
-            for (int i = 1; i < 10; i++)
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: edge),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/tips1.png',
-                          width: 80,
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            Text(
-                              'Kost Alsof',
-                              style: blackTextStyle.copyWith(
-                                fontSize: 18,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              'Updated 16/20-2022',
-                              style: greyTextStyle,
-                            )
-                          ],
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.chevron_right, color: greyColor),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              )
+            FutureBuilder(
+                future: getFav(),
+                builder: (context, data) {
+                  if (data.hasError) {
+                    return Text("${data.hasError}");
+                  } else if (data.hasData) {
+                    var isiData = data.data as List<FavSpace>;
+                    return Scrollbar(
+                      child: ListView.builder(
+                        // controller: _scroll,
+                        shrinkWrap: true,
+                        itemCount: isiData.length,
+                        itemBuilder: (context, index) {
+                          return _buildCard(isiData[index], context);
+                        },
+                      ),
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                })
           ],
         ),
       ),
@@ -161,6 +139,172 @@ class _FavPageState extends State<FavPage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Widget _buildCard(
+    FavSpace space,
+    context,
+  ) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return DetailKost(
+                id: space.id_kost,
+                name: space.name,
+                imageUrl: space.imageUrl,
+                price: space.price,
+                city: space.city,
+                country: space.country,
+                rating: space.rating,
+                address: space.address,
+                phone: space.phone,
+                mapUrl: space.mapUrl,
+                photos: space.photos,
+                status: space.status,
+                numberOfKitchens: space.numberOfKitchens,
+                numberOfBedrooms: space.numberOfBedrooms,
+                numberOfCupboards: space.numberOfCupboards,
+              );
+            }));
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: edge),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(18),
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Image.asset(
+                                'assets/${space.imageUrl}',
+                                width: 90,
+                              ),
+                              if (space.status == "Cowok")
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 50,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: purpleColor,
+                                      borderRadius: const BorderRadius.only(
+                                        // ignore: unnecessary_const
+                                        bottomRight: Radius.circular(36),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Image.asset(
+                                        'assets/ml.png',
+                                        height: 23,
+                                        width: 35,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              if (space.status == "Cewek")
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                    width: 50,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: purpleColor,
+                                      borderRadius: const BorderRadius.only(
+                                        // ignore: unnecessary_const
+                                        bottomRight: Radius.circular(36),
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Image.asset(
+                                        'assets/woman12.png',
+                                        height: 23,
+                                        width: 35,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 31,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          space.name,
+                          style: blackTextStyle.copyWith(fontSize: 14),
+                        ),
+                        const SizedBox(
+                          height: 1.5,
+                        ),
+                        Text(
+                          "Rp. ${space.price}",
+                          style: greyTextStyle.copyWith(fontSize: 13),
+                        ),
+                        Text(
+                          "Rating : ${space.rating}",
+                          style: greyTextStyle.copyWith(fontSize: 13),
+                        ),
+                        Text(
+                          space.address,
+                          style: greyTextStyle.copyWith(fontSize: 13),
+                        ),
+                        // Text(
+                        //   "Gender : ${space.id}",
+                        //   style: greyTextStyle.copyWith(fontSize: 13),
+                        // ),
+                        const SizedBox(height: 30)
+                      ],
+                    ),
+                    const Spacer(),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return DetailKost(
+                              id: space.id_kost,
+                              name: space.name,
+                              imageUrl: space.imageUrl,
+                              price: space.price,
+                              city: space.city,
+                              country: space.country,
+                              rating: space.rating,
+                              address: space.address,
+                              phone: space.phone,
+                              mapUrl: space.mapUrl,
+                              photos: space.photos,
+                              status: space.status,
+                              numberOfKitchens: space.numberOfKitchens,
+                              numberOfBedrooms: space.numberOfBedrooms,
+                              numberOfCupboards: space.numberOfCupboards,
+                            );
+                          }));
+                        },
+                        icon: Icon(
+                          Icons.chevron_right,
+                          color: greyColor,
+                        ))
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

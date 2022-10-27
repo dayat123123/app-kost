@@ -1,13 +1,20 @@
-// ignore_for_file: unnecessary_string_interpolations, unnecessary_const, deprecated_member_use, non_constant_identifier_names
+// ignore_for_file: unnecessary_string_interpolations, unnecessary_const, deprecated_member_use, non_constant_identifier_names, avoid_unnecessary_containers, unused_local_variable, avoid_print, missing_required_param
 
 // import 'dart:ffi';
+import 'dart:convert';
 
+// import 'package:get/get.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:real_sokost/homepage.dart';
 import 'package:real_sokost/rating_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'facility_item.dart';
+// import 'homepage.dart';
 import 'theme.dart';
 import 'package:flutter_launch/flutter_launch.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailKost extends StatefulWidget {
   final String id;
@@ -49,6 +56,161 @@ class DetailKost extends StatefulWidget {
 }
 
 class _DetailKostState extends State<DetailKost> {
+  _showAlertDialog(BuildContext context) {
+    Widget okButton = FlatButton(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Batal",
+                style: blackTextStyle.copyWith(fontSize: 15),
+              )),
+          InkWell(
+              onTap: () {
+                _tambahdata();
+              },
+              child: Text(
+                "OK",
+                style: blackTextStyle.copyWith(fontSize: 15),
+              )),
+        ],
+      ),
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text(
+        "Tambahkan Keranjang",
+        style: blackTextStyle.copyWith(fontSize: 18),
+      ),
+      content: Row(
+        children: [
+          Image.asset(
+            'assets/${widget.imageUrl}',
+            height: 50,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Text(
+            widget.name,
+            style: blackTextStyle.copyWith(fontSize: 15),
+          ),
+          // Text(
+          //   "/ Rp.${widget.price}",
+          //   style: TextStyle(color: purpleColor),
+          // ),
+        ],
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  // batas
+
+  _tambahdata() async {
+    const String sUrl = "http://sofiaal.slkbankum.com/api/addFavorit.php";
+    final prefs = await SharedPreferences.getInstance();
+    var params = "?id_kost=" + widget.id + "&id_user=" + widget.id;
+
+    try {
+      var res = await http.get(Uri.parse(sUrl + params));
+      if (res.statusCode == 200) {
+        var response = json.decode(res.body);
+        if (response['response_status'] == "OK") {
+          prefs.setBool('slogin', true);
+          Widget okButton = FlatButton(
+            child: Text(
+              "OK",
+              style: blackTextStyle.copyWith(fontSize: 20),
+            ),
+            onPressed: () => Navigator.of(context, rootNavigator: true)
+                .pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    (Route<dynamic> route) => false),
+          );
+          AlertDialog alert = AlertDialog(
+            title: Text(
+              "Notifikasi",
+              style: blackTextStyle.copyWith(fontSize: 18),
+            ),
+            content: Text(
+              "Data ${widget.name} berhasil di tambahkan keranjang",
+              style: greyTextStyle.copyWith(fontSize: 14),
+            ),
+            actions: [
+              okButton,
+            ],
+          );
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) {
+              return alert;
+            },
+          );
+        } else {
+          print("Gagal");
+          // _showAlertDialog(context, response['response_message']);
+        }
+      }
+    } catch (e) {
+      print("gaagal");
+    }
+  }
+  // batas dialog
+
+  openMapsSheet(context) async {
+    try {
+      var latitude = 37.759392;
+      var coords = Coords(latitude, -122.5107336);
+      final title = "${widget.name}";
+      final availableMaps = await MapLauncher.installedMaps;
+
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                child: Wrap(
+                  children: <Widget>[
+                    for (var map in availableMaps)
+                      ListTile(
+                        onTap: () => map.showMarker(
+                          coords: coords,
+                          title: title,
+                        ),
+                        title: Text(map.mapName),
+                        leading: Image.asset(
+                          'assets/city1.png',
+                          height: 30.0,
+                          width: 30.0,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void googleMapada() async {
     String googleUrl =
         "https://www.google.com/maps/search/?api=1&query=${widget.address}";
@@ -369,7 +531,7 @@ class _DetailKostState extends State<DetailKost> {
                   if (widget.status != "1")
                     InkWell(
                       onTap: () {
-                        print("ini tidak aktiv");
+                        _showAlertDialog(context);
                       },
                       child: Image.asset(
                         'assets/btn_wishlist.png',
