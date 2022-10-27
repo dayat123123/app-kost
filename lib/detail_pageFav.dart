@@ -1,11 +1,12 @@
-// ignore_for_file: unnecessary_string_interpolations, unnecessary_const, deprecated_member_use, non_constant_identifier_names, avoid_unnecessary_containers, unused_local_variable, avoid_print, missing_required_param
+// ignore_for_file: unnecessary_string_interpolations, unnecessary_const, deprecated_member_use, non_constant_identifier_names, avoid_unnecessary_containers, unused_local_variable, avoid_print, missing_required_param, file_names
 
 // import 'dart:ffi';
 import 'dart:convert';
 
 // import 'package:get/get.dart';
-import 'package:map_launcher/map_launcher.dart';
+// import 'package:map_launcher/map_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:real_sokost/favorite.dart';
 import 'package:real_sokost/homepage.dart';
 import 'package:real_sokost/rating_item.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,8 +17,9 @@ import 'package:flutter_launch/flutter_launch.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DetailKost extends StatefulWidget {
+class DetailKostFav extends StatefulWidget {
   final String id;
+  final String id_favorit;
   final String name;
   final String imageUrl;
   final String price;
@@ -32,9 +34,10 @@ class DetailKost extends StatefulWidget {
   final String numberOfKitchens;
   final String numberOfBedrooms;
   final String numberOfCupboards;
-  const DetailKost(
+  const DetailKostFav(
       {Key key,
       this.id,
+      this.id_favorit,
       this.name,
       this.imageUrl,
       this.price,
@@ -52,10 +55,10 @@ class DetailKost extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<DetailKost> createState() => _DetailKostState();
+  State<DetailKostFav> createState() => _DetailKostFavState();
 }
 
-class _DetailKostState extends State<DetailKost> {
+class _DetailKostFavState extends State<DetailKostFav> {
   _showAlertDialog(BuildContext context) {
     Widget okButton = FlatButton(
       child: Row(
@@ -72,7 +75,7 @@ class _DetailKostState extends State<DetailKost> {
               )),
           InkWell(
               onTap: () {
-                _tambahdata();
+                _deleteFav();
               },
               child: Text(
                 "OK",
@@ -83,7 +86,7 @@ class _DetailKostState extends State<DetailKost> {
     );
     AlertDialog alert = AlertDialog(
       title: Text(
-        "Tambahkan Favorit",
+        "Hapus Dari Favorit",
         style: blackTextStyle.copyWith(fontSize: 18),
       ),
       content: Row(
@@ -119,10 +122,10 @@ class _DetailKostState extends State<DetailKost> {
 
   // batas
 
-  _tambahdata() async {
-    const String sUrl = "http://sofiaal.slkbankum.com/api/addFavorit.php";
+  _deleteFav() async {
+    const String sUrl = "http://sofiaal.slkbankum.com/api/deleteFavorit.php";
     final prefs = await SharedPreferences.getInstance();
-    var params = "?id_kost=" + widget.id + "&id_user=" + widget.id;
+    var params = "?id_favorit=" + widget.id_favorit;
 
     try {
       var res = await http.get(Uri.parse(sUrl + params));
@@ -137,7 +140,7 @@ class _DetailKostState extends State<DetailKost> {
             ),
             onPressed: () => Navigator.of(context, rootNavigator: true)
                 .pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    MaterialPageRoute(builder: (context) => const FavPage()),
                     (Route<dynamic> route) => false),
           );
           AlertDialog alert = AlertDialog(
@@ -146,7 +149,7 @@ class _DetailKostState extends State<DetailKost> {
               style: blackTextStyle.copyWith(fontSize: 18),
             ),
             content: Text(
-              "Data ${widget.name} berhasil di tambahkan Favorit",
+              "Data ${widget.name} berhasil di hapus dari Favorit",
               style: greyTextStyle.copyWith(fontSize: 14),
             ),
             actions: [
@@ -171,45 +174,45 @@ class _DetailKostState extends State<DetailKost> {
   }
   // batas dialog
 
-  openMapsSheet(context) async {
-    try {
-      var latitude = 37.759392;
-      var coords = Coords(latitude, -122.5107336);
-      final title = "${widget.name}";
-      final availableMaps = await MapLauncher.installedMaps;
+  // openMapsSheet(context) async {
+  //   try {
+  //     var latitude = 37.759392;
+  //     var coords = Coords(latitude, -122.5107336);
+  //     final title = "${widget.name}";
+  //     final availableMaps = await MapLauncher.installedMaps;
 
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Container(
-                child: Wrap(
-                  children: <Widget>[
-                    for (var map in availableMaps)
-                      ListTile(
-                        onTap: () => map.showMarker(
-                          coords: coords,
-                          title: title,
-                        ),
-                        title: Text(map.mapName),
-                        leading: Image.asset(
-                          'assets/city1.png',
-                          height: 30.0,
-                          width: 30.0,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      );
-    } catch (e) {
-      print(e);
-    }
-  }
+  //     showModalBottomSheet(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return SafeArea(
+  //           child: SingleChildScrollView(
+  //             child: Container(
+  //               child: Wrap(
+  //                 children: <Widget>[
+  //                   for (var map in availableMaps)
+  //                     ListTile(
+  //                       onTap: () => map.showMarker(
+  //                         coords: coords,
+  //                         title: title,
+  //                       ),
+  //                       title: Text(map.mapName),
+  //                       leading: Image.asset(
+  //                         'assets/city1.png',
+  //                         height: 30.0,
+  //                         width: 30.0,
+  //                       ),
+  //                     ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     );
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   void googleMapada() async {
     String googleUrl =
@@ -228,24 +231,6 @@ class _DetailKostState extends State<DetailKost> {
     var nobdbase = widget.numberOfBedrooms;
     var nobd_akhir = int.parse(nobdbase);
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   elevation: 0.0,
-      //   centerTitle: true,
-      //   leading: IconButton(
-      //     icon: const Icon(
-      //       Icons.arrow_back,
-      //       color: Colors.black,
-      //     ),
-      //     onPressed: () {
-      //       Navigator.of(context).pop();
-      //     },
-      //   ),
-      //   title: Text(
-      //     'Detail Page',
-      //     style: blackTextStyle.copyWith(fontSize: 22),
-      //   ),
-      // ),
       backgroundColor: whiteColor,
       body: SafeArea(
         bottom: false,
@@ -518,26 +503,16 @@ class _DetailKostState extends State<DetailKost> {
                   //   'assets/btn_wishlist.png',
                   //   width: 40,
                   // ),
-                  if (widget.status == "1")
-                    InkWell(
-                      onTap: () {
-                        print("Ini aktiv");
-                      },
-                      child: Image.asset(
-                        'assets/btn_wishlist_active.png',
-                        width: 40,
-                      ),
+
+                  InkWell(
+                    onTap: () {
+                      _showAlertDialog(context);
+                    },
+                    child: Image.asset(
+                      'assets/btn_wishlist_active.png',
+                      width: 40,
                     ),
-                  if (widget.status != "1")
-                    InkWell(
-                      onTap: () {
-                        _showAlertDialog(context);
-                      },
-                      child: Image.asset(
-                        'assets/btn_wishlist.png',
-                        width: 40,
-                      ),
-                    ),
+                  ),
                 ],
               ),
             ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:real_sokost/detail_pageFav.dart';
 import 'dart:convert';
 import 'button_navbar_item.dart';
-import 'detail_page.dart';
+// import 'detail_page.dart';
 import 'fav_space.dart';
 import 'homepage.dart';
 // import 'space.dart';
@@ -151,8 +152,9 @@ class _FavPageState extends State<FavPage> {
         InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return DetailKost(
+              return DetailKostFav(
                 id: space.id_kost,
+                id_favorit: space.id_favorit,
                 name: space.name,
                 imageUrl: space.imageUrl,
                 price: space.price,
@@ -275,8 +277,9 @@ class _FavPageState extends State<FavPage> {
                         onPressed: () {
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return DetailKost(
+                            return DetailKostFav(
                               id: space.id_kost,
+                              id_favorit: space.id_favorit,
                               name: space.name,
                               imageUrl: space.imageUrl,
                               price: space.price,
