@@ -1,16 +1,17 @@
-// ignore_for_file: unnecessary_string_interpolations, unnecessary_const, deprecated_member_use, non_constant_identifier_names, avoid_unnecessary_containers, unused_local_variable, avoid_print, missing_required_param
+// ignore_for_file: unnecessary_string_interpolations, unnecessary_const, deprecated_member_use, non_constant_identifier_names, avoid_unnecessary_containers, unused_local_variable, avoid_print, missing_required_param, unused_element
 
 // import 'dart:ffi';
 import 'dart:convert';
 
 // import 'package:get/get.dart';
-import 'package:map_launcher/map_launcher.dart';
+// import 'package:map_launcher/map_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:real_sokost/fav_space.dart';
 import 'package:real_sokost/homepage.dart';
-import 'package:real_sokost/rating_item.dart';
+// import 'package:real_sokost/rating_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'facility_item.dart';
-// import 'homepage.dart';
+import 'package:rating_bar/rating_bar.dart';
 import 'theme.dart';
 import 'package:flutter_launch/flutter_launch.dart';
 import 'package:http/http.dart' as http;
@@ -56,6 +57,23 @@ class DetailKost extends StatefulWidget {
 }
 
 class _DetailKostState extends State<DetailKost> {
+  Future<List<FavSpace>> getFavDetail() async {
+    final response = await http
+        .get(Uri.parse('http://sofiaal.slkbankum.com/api/list_favkost.php'));
+
+    if (response.statusCode == 200) {
+      List jsonResponse = jsonDecode(response.body);
+      return jsonResponse
+          .map((data) => FavSpace.fromJson(data))
+          .where((data) => data.id_kost == widget.id)
+          .toList();
+    } else {
+      throw Exception("Failed to load data");
+    }
+  }
+
+  bool isFavorite = false;
+  // untuk pop up notif masukkan favorit
   _showAlertDialog(BuildContext context) {
     Widget okButton = FlatButton(
       child: Row(
@@ -83,7 +101,78 @@ class _DetailKostState extends State<DetailKost> {
     );
     AlertDialog alert = AlertDialog(
       title: Text(
-        "Tambahkan Favorit",
+        "Tambahkan ke Favorit",
+        style: blackTextStyle.copyWith(fontSize: 18),
+      ),
+      content: Row(
+        children: [
+          Image.asset(
+            'assets/${widget.imageUrl}',
+            height: 50,
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              RichText(
+                text: TextSpan(
+                  text: " ${widget.name} \n",
+                  style: blackTextStyle.copyWith(fontSize: 15),
+                  children: [
+                    TextSpan(
+                      text: " Rp. ${widget.price} ",
+                      style: greyTextStyle.copyWith(fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  // batas
+  _showAlertDialog2(BuildContext context) {
+    Widget okButton = FlatButton(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Batal",
+                style: blackTextStyle.copyWith(fontSize: 15),
+              )),
+          InkWell(
+              onTap: () {
+                _deleteFav();
+              },
+              child: Text(
+                "OK",
+                style: blackTextStyle.copyWith(fontSize: 15),
+              )),
+        ],
+      ),
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text(
+        "Hapus Dari Favorit",
         style: blackTextStyle.copyWith(fontSize: 18),
       ),
       content: Row(
@@ -117,8 +206,7 @@ class _DetailKostState extends State<DetailKost> {
     );
   }
 
-  // batas
-
+// bbatas delete fav2
   _tambahdata() async {
     const String sUrl = "http://sofiaal.slkbankum.com/api/addFavorit.php";
     final prefs = await SharedPreferences.getInstance();
@@ -146,7 +234,7 @@ class _DetailKostState extends State<DetailKost> {
               style: blackTextStyle.copyWith(fontSize: 18),
             ),
             content: Text(
-              "Data ${widget.name} berhasil di tambahkan Favorit",
+              "Data ${widget.name} berhasil di tambahkan Favorit, tekan OK",
               style: greyTextStyle.copyWith(fontSize: 14),
             ),
             actions: [
@@ -171,47 +259,100 @@ class _DetailKostState extends State<DetailKost> {
   }
   // batas dialog
 
-  openMapsSheet(context) async {
-    try {
-      var latitude = 37.759392;
-      var coords = Coords(latitude, -122.5107336);
-      final title = "${widget.name}";
-      final availableMaps = await MapLauncher.installedMaps;
+  // batas dialog delete
+  _deleteFav() async {
+    const String sUrl = "http://sofiaal.slkbankum.com/api/deleteFavorit.php";
+    final prefs = await SharedPreferences.getInstance();
+    var params = "?id_favorit=" + widget.id;
 
-      showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Container(
-                child: Wrap(
-                  children: <Widget>[
-                    for (var map in availableMaps)
-                      ListTile(
-                        onTap: () => map.showMarker(
-                          coords: coords,
-                          title: title,
-                        ),
-                        title: Text(map.mapName),
-                        leading: Image.asset(
-                          'assets/city1.png',
-                          height: 30.0,
-                          width: 30.0,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
+    try {
+      var res = await http.get(Uri.parse(sUrl + params));
+      if (res.statusCode == 200) {
+        var response = json.decode(res.body);
+        if (response['response_status'] == "OK") {
+          prefs.setBool('slogin', true);
+          Widget okButton = FlatButton(
+            child: Text(
+              "OK",
+              style: blackTextStyle.copyWith(fontSize: 20),
             ),
+            onPressed: () => Navigator.of(context, rootNavigator: true)
+                .pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                    (Route<dynamic> route) => false),
           );
-        },
-      );
+          AlertDialog alert = AlertDialog(
+            title: Text(
+              "Notifikasi",
+              style: blackTextStyle.copyWith(fontSize: 18),
+            ),
+            content: Text(
+              "Data ${widget.name} berhasil di hapus dari Favorit",
+              style: greyTextStyle.copyWith(fontSize: 14),
+            ),
+            actions: [
+              okButton,
+            ],
+          );
+          showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) {
+              return alert;
+            },
+          );
+        } else {
+          print("Gagal");
+          // _showAlertDialog(context, response['response_message']);
+        }
+      }
     } catch (e) {
-      print(e);
+      print("gaagal");
     }
   }
+  // batas bawah
 
-  void googleMapada() async {
+  // openMapsSheet(context) async {
+  //   try {
+  //     var latitude = 37.759392;
+  //     var coords = Coords(latitude, -122.5107336);
+  //     final title = "${widget.name}";
+  //     final availableMaps = await MapLauncher.installedMaps;
+
+  //     showModalBottomSheet(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return SafeArea(
+  //           child: SingleChildScrollView(
+  //             child: Container(
+  //               child: Wrap(
+  //                 children: <Widget>[
+  //                   for (var map in availableMaps)
+  //                     ListTile(
+  //                       onTap: () => map.showMarker(
+  //                         coords: coords,
+  //                         title: title,
+  //                       ),
+  //                       title: Text(map.mapName),
+  //                       leading: Image.asset(
+  //                         'assets/city1.png',
+  //                         height: 30.0,
+  //                         width: 30.0,
+  //                       ),
+  //                     ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     );
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  googleMapada() async {
     String googleUrl =
         "https://www.google.com/maps/search/?api=1&query=${widget.address}";
     if (await canLaunch(googleUrl)) {
@@ -223,29 +364,15 @@ class _DetailKostState extends State<DetailKost> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      getFavDetail();
+    });
+    double _rating = 3;
     var ratingbase = widget.rating;
     var rating_akhir = double.tryParse(ratingbase);
     var nobdbase = widget.numberOfBedrooms;
     var nobd_akhir = int.parse(nobdbase);
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   elevation: 0.0,
-      //   centerTitle: true,
-      //   leading: IconButton(
-      //     icon: const Icon(
-      //       Icons.arrow_back,
-      //       color: Colors.black,
-      //     ),
-      //     onPressed: () {
-      //       Navigator.of(context).pop();
-      //     },
-      //   ),
-      //   title: Text(
-      //     'Detail Page',
-      //     style: blackTextStyle.copyWith(fontSize: 22),
-      //   ),
-      // ),
       backgroundColor: whiteColor,
       body: SafeArea(
         bottom: false,
@@ -311,6 +438,12 @@ class _DetailKostState extends State<DetailKost> {
                                     ],
                                   ),
                                 ),
+                                Text(
+                                  "${widget.status}",
+                                  style: greyTextStyle.copyWith(
+                                    fontSize: 15,
+                                  ),
+                                ),
                               ],
                             ),
                             Column(
@@ -330,18 +463,30 @@ class _DetailKostState extends State<DetailKost> {
                                   ],
                                 ),
                                 Row(
-                                  children: [1, 2, 3, 4, 5].map((index) {
-                                    return Container(
-                                      // ignore: prefer_const_constructors
-                                      margin: EdgeInsets.only(
-                                        left: 2,
-                                      ),
-                                      child: RatingItem(
-                                        index: index,
-                                        rating: rating_akhir,
-                                      ),
-                                    );
-                                  }).toList(),
+                                  // children: [1, 2, 3, 4, 5].map((index) {
+                                  //   return Container(
+                                  //     // ignore: prefer_const_constructors
+                                  //     margin: EdgeInsets.only(
+                                  //       left: 2,
+                                  //     ),
+                                  //     child: RatingItem(
+                                  //       index: index,
+                                  //       rating: rating_akhir,
+                                  //     ),
+                                  //   );
+                                  // }).toList(),
+                                  children: [
+                                    RatingBar.readOnly(
+                                      initialRating: rating_akhir,
+                                      isHalfAllowed: true,
+                                      halfFilledIcon: Icons.star_half,
+                                      filledIcon: Icons.star,
+                                      emptyIcon: Icons.star_border,
+                                      size: 18,
+                                      filledColor: const Color.fromARGB(
+                                          255, 252, 109, 37),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -370,12 +515,12 @@ class _DetailKostState extends State<DetailKost> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             FacilityItem(
-                              name: 'kitchen',
+                              name: 'Dapur',
                               imageUrl: 'assets/icon_kitchen.png',
                               total: nobd_akhir,
                             ),
                             FacilityItem(
-                              name: 'bedroom',
+                              name: 'Kasur',
                               imageUrl: 'assets/icon_bedroom.png',
                               total: nobd_akhir,
                             ),
@@ -415,7 +560,7 @@ class _DetailKostState extends State<DetailKost> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
                                   child: Image.asset(
-                                    "assets/photo1.png",
+                                    "assets/${widget.imageUrl}",
                                     width: 110,
                                     height: 88,
                                     fit: BoxFit.cover,
@@ -445,7 +590,7 @@ class _DetailKostState extends State<DetailKost> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '${widget.address}\n${widget.city}',
+                              '${widget.city}\n${widget.address}',
                               style: greyTextStyle,
                             ),
                             InkWell(
@@ -514,30 +659,81 @@ class _DetailKostState extends State<DetailKost> {
                       width: 40,
                     ),
                   ),
-                  // Image.asset(
-                  //   'assets/btn_wishlist.png',
-                  //   width: 40,
+
+                  // future builder untuk fav icon
+                  FutureBuilder(
+                    future: getFavDetail(),
+                    // ignore: missing_return
+                    builder: (context, data) {
+                      if (data.hasError) {
+                        return Text("${data.hasError}");
+                      } else if (data.hasData) {
+                        var isiData = data.data as List<FavSpace>;
+
+                        try {
+                          if (data.data[0] != "") {
+                            return InkWell(
+                              onTap: () {
+                                _showAlertDialog2(context);
+                              },
+                              child: Image.asset(
+                                'assets/btn_wishlist_active.png',
+                                width: 40,
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          return InkWell(
+                            onTap: () {
+                              _showAlertDialog(context);
+                            },
+                            child: Image.asset(
+                              'assets/btn_wishlist.png',
+                              width: 40,
+                            ),
+                          );
+                        }
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                  // batas
+                  // if (widget.status == "1")
+                  //   InkWell(
+                  //     onTap: () {
+                  //       print("Ini aktiv");
+                  //     },
+                  //     child: Image.asset(
+                  //       'assets/btn_wishlist_active.png',
+                  //       width: 40,
+                  //     ),
+                  //   ),
+                  // if (widget.status != "1")
+                  //   InkWell(
+                  //     onTap: () {
+                  //       _showAlertDialog(context);
+                  //     },
+                  //     child: Image.asset(
+                  //       'assets/btn_wishlist.png',
+                  //       width: 40,
+                  //     ),
+                  //   ),
+                  // InkWell(
+                  //   onTap: () {
+                  //     setState(() {
+                  //       isFavorite = !isFavorite;
+                  //     });
+                  //   },
+                  //   child: Image.asset(
+                  //     isFavorite
+                  //         ? 'assets/btn_wishlist_active.png'
+                  //         : 'assets/btn_wishlist.png',
+                  //     width: 40,
+                  //   ),
                   // ),
-                  if (widget.status == "1")
-                    InkWell(
-                      onTap: () {
-                        print("Ini aktiv");
-                      },
-                      child: Image.asset(
-                        'assets/btn_wishlist_active.png',
-                        width: 40,
-                      ),
-                    ),
-                  if (widget.status != "1")
-                    InkWell(
-                      onTap: () {
-                        _showAlertDialog(context);
-                      },
-                      child: Image.asset(
-                        'assets/btn_wishlist.png',
-                        width: 40,
-                      ),
-                    ),
                 ],
               ),
             ),

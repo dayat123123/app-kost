@@ -1,8 +1,12 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:rating_bar/rating_bar.dart';
 import 'button_navbar_item.dart';
 import 'detail_page.dart';
+import 'fav_space.dart';
 import 'favorite.dart';
 import 'kost_based_kecamatan.dart';
 import 'space.dart';
@@ -30,6 +34,22 @@ class _HomePageState extends State<HomePage> {
       throw Exception("Failed to load data");
     }
   }
+
+  // Future<List<FavSpace>> getFav() async {
+  //   final response = await http
+  //       .get(Uri.parse('http://sofiaal.slkbankum.com/api/list_favkost.php'));
+
+  //   if (response.statusCode == 200) {
+  //     List jsonResponse = jsonDecode(response.body);
+
+  //     return jsonResponse
+  //         .map((data) => FavSpace.fromJson(data))
+  //         .where((data) => data.id_user == '1')
+  //         .toList();
+  //   } else {
+  //     throw Exception("Failed to load data");
+  //   }
+  // }
 
   @override
   void initState() {
@@ -331,18 +351,18 @@ class _HomePageState extends State<HomePage> {
                                   child: Container(
                                     width: 50,
                                     height: 30,
+                                    // ignore: prefer_const_constructors
                                     decoration: BoxDecoration(
-                                      color: purpleColor,
+                                      color: Colors.black,
                                       borderRadius: const BorderRadius.only(
                                         // ignore: unnecessary_const
-                                        bottomRight: Radius.circular(36),
+                                        bottomRight: Radius.circular(16),
                                       ),
                                     ),
                                     child: Center(
                                       child: Image.asset(
                                         'assets/ml.png',
                                         height: 23,
-                                        width: 35,
                                       ),
                                     ),
                                   ),
@@ -357,14 +377,13 @@ class _HomePageState extends State<HomePage> {
                                       color: purpleColor,
                                       borderRadius: const BorderRadius.only(
                                         // ignore: unnecessary_const
-                                        bottomRight: Radius.circular(36),
+                                        bottomRight: Radius.circular(16),
                                       ),
                                     ),
                                     child: Center(
                                       child: Image.asset(
                                         'assets/woman12.png',
                                         height: 23,
-                                        width: 35,
                                       ),
                                     ),
                                   ),
@@ -394,12 +413,17 @@ class _HomePageState extends State<HomePage> {
                           "Rp. ${space.price}",
                           style: greyTextStyle.copyWith(fontSize: 13),
                         ),
-                        Text(
-                          "Rating : ${space.rating}",
-                          style: greyTextStyle.copyWith(fontSize: 13),
+                        RatingBar.readOnly(
+                          initialRating: double.parse(space.rating),
+                          isHalfAllowed: true,
+                          halfFilledIcon: Icons.star_half,
+                          filledIcon: Icons.star,
+                          emptyIcon: Icons.star_border,
+                          size: 16,
+                          filledColor: const Color.fromARGB(255, 252, 109, 37),
                         ),
                         Text(
-                          space.address,
+                          "${space.city}",
                           style: greyTextStyle.copyWith(fontSize: 13),
                         ),
                         // Text(

@@ -122,6 +122,8 @@ class _DetailKostFavState extends State<DetailKostFav> {
 
   // batas
 
+  // batas bawah
+
   _deleteFav() async {
     const String sUrl = "http://sofiaal.slkbankum.com/api/deleteFavorit.php";
     final prefs = await SharedPreferences.getInstance();
