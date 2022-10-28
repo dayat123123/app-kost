@@ -261,9 +261,9 @@ class _DetailKostState extends State<DetailKost> {
 
   // batas dialog delete
   _deleteFav() async {
-    const String sUrl = "http://sofiaal.slkbankum.com/api/deleteFavorit.php";
+    const String sUrl = "http://sofiaal.slkbankum.com/api/deleteFavorit2.php";
     final prefs = await SharedPreferences.getInstance();
-    var params = "?id_favorit=" + widget.id;
+    var params = "?id_kost=" + widget.id + "&id_user=" + widget.id;
 
     try {
       var res = await http.get(Uri.parse(sUrl + params));
