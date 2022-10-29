@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
+import 'package:real_sokost/login.dart';
 import 'homepage.dart';
 import 'theme.dart';
 // import 'homepage.dart';
@@ -72,7 +73,7 @@ class _SplashPageState extends State<SplashPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const HomePage()));
+                                builder: (context) => const Siginin()));
                       },
                       color: purpleColor,
                       shape: RoundedRectangleBorder(
