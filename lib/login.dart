@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:flutter/material.dart';
 import 'package:real_sokost/homepage.dart';
 import 'dart:convert';
@@ -175,6 +177,7 @@ class _SigninState extends State<Signin> {
   }
 
   _showAlertDialogBerhasil(BuildContext context) {
+    // ignore: deprecated_member_use
     Widget okButton = FlatButton(
       child: const Text("OK"),
       onPressed: () => Navigator.of(context, rootNavigator: true)
@@ -198,6 +201,7 @@ class _SigninState extends State<Signin> {
   }
 
   _showAlertDialog(BuildContext context, String err) {
+    // ignore: deprecated_member_use
     Widget okButton = FlatButton(
       child: const Text("OK"),
       onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
@@ -228,76 +232,84 @@ class _SigninState extends State<Signin> {
               const SizedBox(
                 height: 35,
               ),
-              Center(
-                child: Container(
-                  height: 200,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: Image.asset("assets/adaa.png"),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Center(
+                  child: SizedBox(
+                    height: 200,
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: Image.asset("assets/adaa.png"),
+                  ),
                 ),
               ),
               const SizedBox(
                 height: 70,
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Text(
-                  "Login admin",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+              // const Padding(
+              //   padding: EdgeInsets.only(left: 20, right: 20),
+              //   child: Text(
+              //     "Login ",
+              //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              //   ),
+              // ),
+              CustomFormField(
+                headingText: "Email",
+                hintText: "Email",
+                obsecureText: false,
+                suffixIcon: const SizedBox(),
+                controller: emailcontroller,
+                maxLines: 1,
+                textInputAction: TextInputAction.done,
+                textInputType: TextInputType.emailAddress,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: TextField(
-                    controller: emailcontroller,
-                    decoration: const InputDecoration(
-                        labelText: "email",
-                        hintText: "email",
-                        icon: Icon(Icons.dashboard))),
+              const SizedBox(
+                height: 16,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: TextFormField(
-                  controller: passwordcontroller,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                      labelText: 'Password', icon: Icon(Icons.security)),
-                ),
+              CustomFormField(
+                headingText: "Password",
+                maxLines: 1,
+                textInputAction: TextInputAction.done,
+                textInputType: TextInputType.text,
+                hintText: "At least 8 Character",
+                obsecureText: true,
+                suffixIcon: IconButton(
+                    icon: const Icon(Icons.security), onPressed: () {}),
+                controller: passwordcontroller,
               ),
               const SizedBox(
                 height: 20,
               ),
-              Container(
-                margin:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                height: 50,
-                width: 250,
-                decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(20)),
-                child: FlatButton(
-                  onPressed: () {
-                    _cekLogin();
-                  },
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(color: Colors.white, fontSize: 25),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                child: Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  height: 50,
+                  width: 250,
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(20)),
+                  // ignore: deprecated_member_use
+                  child: FlatButton(
+                    onPressed: () {
+                      _cekLogin();
+                    },
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
                   ),
                 ),
               ),
-              Container(
-                child: FlatButton(
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                            (Route<dynamic> route) => false);
-                  },
-                  child: const Text(
-                    "kembali",
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
-                  ),
+              // ignore: deprecated_member_use
+              FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  "kembali",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
                 ),
               ),
             ],
