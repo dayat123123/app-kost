@@ -73,7 +73,7 @@ class _SplashPageState extends State<SplashPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Siginin()));
+                                builder: (context) => const Signin()));
                       },
                       color: purpleColor,
                       shape: RoundedRectangleBorder(
