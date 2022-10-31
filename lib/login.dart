@@ -146,7 +146,6 @@ class _SigninState extends State<Signin> {
         emailcontroller.text +
         "&password=" +
         passwordcontroller.text;
-
     try {
       var res = await http.get(Uri.parse(sUrl + params));
       if (res.statusCode == 200) {
