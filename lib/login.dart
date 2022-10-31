@@ -130,8 +130,7 @@ class _SigninState extends State<Signin> {
   final TextEditingController passwordcontroller = TextEditingController();
   bool visible = false;
   final String sUrl = "http://slkbankum.com/api_app/login.php";
-  // DbHelper dbHelper = DbHelper();
-  // Profil profil;
+
   @override
   void initState() {
     super.initState();
