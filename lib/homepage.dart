@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rating_bar/rating_bar.dart';
+import 'package:real_sokost/profil_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'button_navbar_item.dart';
 import 'detail_page.dart';
@@ -290,8 +291,8 @@ class _HomePageState extends State<HomePage> {
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const HomePage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ProfilPage()));
               },
               child: BottomNavbarItem(
                 imageUrl: 'assets/user (1).png',

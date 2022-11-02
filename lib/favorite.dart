@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_sokost/detail_pageFav.dart';
+import 'package:real_sokost/profil_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'button_navbar_item.dart';
@@ -145,8 +146,8 @@ class _FavPageState extends State<FavPage> {
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const HomePage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ProfilPage()));
               },
               child: BottomNavbarItem(
                 imageUrl: 'assets/user (1).png',
