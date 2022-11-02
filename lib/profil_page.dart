@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:real_sokost/theme.dart';
 
+import 'button_navbar_item.dart';
+import 'favorite.dart';
+import 'homepage.dart';
 import 'login_widgets/widgets/custom_textfield.dart';
 
 class ProfilPage extends StatefulWidget {
@@ -104,7 +107,7 @@ class _ProfilPageState extends State<ProfilPage> {
                           textInputType: TextInputType.emailAddress,
                         ),
                         const SizedBox(
-                          height: 16,
+                          height: 5,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 60, right: 60),
@@ -129,6 +132,9 @@ class _ProfilPageState extends State<ProfilPage> {
                             ),
                           ),
                         ),
+                        const SizedBox(
+                          height: 70,
+                        ),
                       ],
                     ),
                   ),
@@ -147,22 +153,14 @@ class _ProfilPageState extends State<ProfilPage> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: Image.asset(
-                      'assets/btn_back.png',
-                      width: 40,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
                     child: Stack(
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Image.asset(
-                            'assets/user.png',
-                            width: 40,
+                          child: Icon(
+                            Icons.photo_camera,
+                            color: whiteColor,
+                            size: 35,
                           ),
                         )
                       ],
@@ -174,6 +172,53 @@ class _ProfilPageState extends State<ProfilPage> {
           ],
         ),
       ),
+      floatingActionButton: Container(
+        height: 65,
+        width: MediaQuery.of(context).size.width - (2 * edge),
+        margin: EdgeInsets.symmetric(
+          horizontal: edge,
+        ),
+        decoration: BoxDecoration(
+          color: const Color(0xffF6F7F8),
+          borderRadius: BorderRadius.circular(23),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const HomePage()));
+              },
+              child: BottomNavbarItem(
+                imageUrl: 'assets/home (1).png',
+                isActive: false,
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const FavPage()));
+              },
+              child: BottomNavbarItem(
+                imageUrl: 'assets/love.png',
+                isActive: false,
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const ProfilPage()));
+              },
+              child: BottomNavbarItem(
+                imageUrl: 'assets/user.png',
+                isActive: true,
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

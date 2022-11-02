@@ -131,7 +131,7 @@ class _FavPageState extends State<FavPage> {
               },
               child: BottomNavbarItem(
                 imageUrl: 'assets/home (1).png',
-                isActive: true,
+                isActive: false,
               ),
             ),
             InkWell(
@@ -141,7 +141,7 @@ class _FavPageState extends State<FavPage> {
               },
               child: BottomNavbarItem(
                 imageUrl: 'assets/love (1).png',
-                isActive: false,
+                isActive: true,
               ),
             ),
             InkWell(
