@@ -11,7 +11,7 @@ import 'package:real_sokost/homepage.dart';
 import 'package:real_sokost/rating_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'facility_item.dart';
-// import 'homepage.dart';
+import 'package:rating_bar/rating_bar.dart';
 import 'theme.dart';
 import 'package:flutter_launch/flutter_launch.dart';
 import 'package:http/http.dart' as http;
@@ -317,18 +317,30 @@ class _DetailKostFavState extends State<DetailKostFav> {
                                   ],
                                 ),
                                 Row(
-                                  children: [1, 2, 3, 4, 5].map((index) {
-                                    return Container(
-                                      // ignore: prefer_const_constructors
-                                      margin: EdgeInsets.only(
-                                        left: 2,
-                                      ),
-                                      child: RatingItem(
-                                        index: index,
-                                        rating: rating_akhir,
-                                      ),
-                                    );
-                                  }).toList(),
+                                  // children: [1, 2, 3, 4, 5].map((index) {
+                                  //   return Container(
+                                  //     // ignore: prefer_const_constructors
+                                  //     margin: EdgeInsets.only(
+                                  //       left: 2,
+                                  //     ),
+                                  //     child: RatingItem(
+                                  //       index: index,
+                                  //       rating: rating_akhir,
+                                  //     ),
+                                  //   );
+                                  // }).toList(),
+                                  children: [
+                                    RatingBar.readOnly(
+                                      initialRating: rating_akhir,
+                                      isHalfAllowed: true,
+                                      halfFilledIcon: Icons.star_half,
+                                      filledIcon: Icons.star,
+                                      emptyIcon: Icons.star_border,
+                                      size: 18,
+                                      filledColor: const Color.fromARGB(
+                                          255, 252, 109, 37),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

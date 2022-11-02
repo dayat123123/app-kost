@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_sokost/detail_pageFav.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'button_navbar_item.dart';
 // import 'detail_page.dart';
@@ -22,15 +23,32 @@ class _FavPageState extends State<FavPage> {
 
     if (response.statusCode == 200) {
       List jsonResponse = jsonDecode(response.body);
-      return jsonResponse.map((data) => FavSpace.fromJson(data)).toList();
+      return jsonResponse
+          .map((data) => FavSpace.fromJson(data))
+          .where((data) => data.id_user == id_user)
+          .toList();
     } else {
       throw Exception("Failed to load data");
     }
   }
 
+  bool slogin = false;
+  String id_user = "";
+  String username = "";
+  _cekLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      slogin = prefs.getBool('slogin') ?? false;
+      username = prefs.getString('username') ?? "";
+      id_user = prefs.getString('id_user') ?? "";
+      print("ID Login : ${id_user}");
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+    _cekLogin();
   }
 
   @override
@@ -111,8 +129,8 @@ class _FavPageState extends State<FavPage> {
                     MaterialPageRoute(builder: (context) => const HomePage()));
               },
               child: BottomNavbarItem(
-                imageUrl: 'assets/icon_home.png',
-                isActive: false,
+                imageUrl: 'assets/home (1).png',
+                isActive: true,
               ),
             ),
             InkWell(
@@ -121,8 +139,8 @@ class _FavPageState extends State<FavPage> {
                     MaterialPageRoute(builder: (context) => const FavPage()));
               },
               child: BottomNavbarItem(
-                imageUrl: 'assets/icon_love.png',
-                isActive: true,
+                imageUrl: 'assets/love (1).png',
+                isActive: false,
               ),
             ),
             InkWell(
@@ -131,7 +149,7 @@ class _FavPageState extends State<FavPage> {
                     MaterialPageRoute(builder: (context) => const HomePage()));
               },
               child: BottomNavbarItem(
-                imageUrl: 'assets/icon_email.png',
+                imageUrl: 'assets/user (1).png',
                 isActive: false,
               ),
             ),

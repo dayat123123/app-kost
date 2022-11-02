@@ -33,6 +33,7 @@ class DetailKost extends StatefulWidget {
   final String numberOfKitchens;
   final String numberOfBedrooms;
   final String numberOfCupboards;
+  final String id_user;
   const DetailKost(
       {Key key,
       this.id,
@@ -49,7 +50,8 @@ class DetailKost extends StatefulWidget {
       this.status,
       this.numberOfBedrooms,
       this.numberOfKitchens,
-      this.numberOfCupboards})
+      this.numberOfCupboards,
+      this.id_user})
       : super(key: key);
 
   @override
@@ -210,7 +212,7 @@ class _DetailKostState extends State<DetailKost> {
   _tambahdata() async {
     const String sUrl = "http://sofiaal.slkbankum.com/api/addFavorit.php";
     final prefs = await SharedPreferences.getInstance();
-    var params = "?id_kost=" + widget.id + "&id_user=" + widget.id;
+    var params = "?id_kost=" + widget.id + "&id_user=" + widget.id_user;
 
     try {
       var res = await http.get(Uri.parse(sUrl + params));
@@ -263,7 +265,7 @@ class _DetailKostState extends State<DetailKost> {
   _deleteFav() async {
     const String sUrl = "http://sofiaal.slkbankum.com/api/deleteFavorit2.php";
     final prefs = await SharedPreferences.getInstance();
-    var params = "?id_kost=" + widget.id + "&id_user=" + widget.id;
+    var params = "?id_kost=" + widget.id + "&id_user=" + widget.id_user;
 
     try {
       var res = await http.get(Uri.parse(sUrl + params));
@@ -362,10 +364,35 @@ class _DetailKostState extends State<DetailKost> {
     }
   }
 
+  // bool slogin = false;
+  // String id_user = "";
+  // String username = "";
+  // _cekLogin() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     slogin = prefs.getBool('slogin') ?? false;
+  //     username = prefs.getString('username') ?? "";
+  //     id_user = prefs.getString('id_user') ?? "";
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // bool slogin = false;
+    // String id_user = "";
+    // String username = "";
+    // _cekLogin() async {
+    //   final prefs = await SharedPreferences.getInstance();
+    //   setState(() {
+    //     slogin = prefs.getBool('slogin') ?? false;
+    //     username = prefs.getString('username') ?? "";
+    //     id_user = prefs.getString('id_user') ?? "";
+    //   });
+    // }
+
     setState(() {
       getFavDetail();
+      print("ID login: ${widget.id_user}");
     });
     double _rating = 3;
     var ratingbase = widget.rating;

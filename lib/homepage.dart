@@ -1,9 +1,10 @@
-// ignore_for_file: unnecessary_string_interpolations
+// ignore_for_file: unnecessary_string_interpolations, unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:rating_bar/rating_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'button_navbar_item.dart';
 import 'detail_page.dart';
 import 'fav_space.dart';
@@ -35,30 +36,34 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // Future<List<FavSpace>> getFav() async {
-  //   final response = await http
-  //       .get(Uri.parse('http://sofiaal.slkbankum.com/api/list_favkost.php'));
-
-  //   if (response.statusCode == 200) {
-  //     List jsonResponse = jsonDecode(response.body);
-
-  //     return jsonResponse
-  //         .map((data) => FavSpace.fromJson(data))
-  //         .where((data) => data.id_user == '1')
-  //         .toList();
-  //   } else {
-  //     throw Exception("Failed to load data");
-  //   }
-  // }
-
-  @override
   void initState() {
     super.initState();
     getkecamatan();
+    _cekLogin();
+  }
+
+  bool slogin = false;
+  String id_user = "";
+  String username = "";
+  var Tampung;
+  @override
+  _cekLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      slogin = prefs.getBool('slogin') ?? false;
+      username = prefs.getString('username') ?? "";
+      id_user = prefs.getString('id_user') ?? "";
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    void initState() {
+      super.initState();
+      // getkecamatan();
+      _cekLogin();
+    }
+
     final ScrollController _scroll = ScrollController();
     Future<List<Space>> getPopular() async {
       final response = await http
@@ -84,7 +89,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: EdgeInsets.only(left: edge),
               child: Text(
-                'Explore Now',
+                'Explore Now ${username}',
                 style: blackTextStyle.copyWith(fontSize: 24),
               ),
             ),
@@ -269,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(builder: (context) => const HomePage()));
               },
               child: BottomNavbarItem(
-                imageUrl: 'assets/icon_home.png',
+                imageUrl: 'assets/home.png',
                 isActive: true,
               ),
             ),
@@ -279,7 +284,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(builder: (context) => const FavPage()));
               },
               child: BottomNavbarItem(
-                imageUrl: 'assets/icon_love.png',
+                imageUrl: 'assets/love.png',
                 isActive: false,
               ),
             ),
@@ -289,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(builder: (context) => const HomePage()));
               },
               child: BottomNavbarItem(
-                imageUrl: 'assets/icon_email.png',
+                imageUrl: 'assets/user (1).png',
                 isActive: false,
               ),
             ),
@@ -326,6 +331,7 @@ class _HomePageState extends State<HomePage> {
                 numberOfKitchens: space.numberOfKitchens,
                 numberOfBedrooms: space.numberOfBedrooms,
                 numberOfCupboards: space.numberOfCupboards,
+                id_user: id_user,
               );
             }));
           },
@@ -454,6 +460,7 @@ class _HomePageState extends State<HomePage> {
                               numberOfKitchens: space.numberOfKitchens,
                               numberOfBedrooms: space.numberOfBedrooms,
                               numberOfCupboards: space.numberOfCupboards,
+                              id_user: username,
                             );
                           }));
                         },
