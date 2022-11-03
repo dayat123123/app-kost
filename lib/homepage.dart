@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_string_interpolations, unnecessary_brace_in_string_interps
+// ignore_for_file: unnecessary_string_interpolations, unnecessary_brace_in_string_interps, unused_element
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -8,7 +8,7 @@ import 'package:real_sokost/profil_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'button_navbar_item.dart';
 import 'detail_page.dart';
-import 'fav_space.dart';
+// import 'fav_space.dart';
 import 'favorite.dart';
 import 'kost_based_kecamatan.dart';
 import 'space.dart';
@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  @override
   void initState() {
     super.initState();
     getkecamatan();
@@ -46,14 +47,26 @@ class _HomePageState extends State<HomePage> {
   bool slogin = false;
   String id_user = "";
   String username = "";
-  var Tampung;
-  @override
+  String email = "";
+  String nohp = "";
+  String password = "";
+  String nama = "";
   _cekLogin() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       slogin = prefs.getBool('slogin') ?? false;
       username = prefs.getString('username') ?? "";
       id_user = prefs.getString('id_user') ?? "";
+      email = prefs.getString('email') ?? "";
+      password = prefs.getString('password') ?? "";
+      nohp = prefs.getString('nohp') ?? "";
+      nama = prefs.getString('nama') ?? "";
+      print(nama);
+      print(nohp);
+      print(email);
+      print(username);
+      print(id_user);
+      print(password);
     });
   }
 
@@ -291,8 +304,17 @@ class _HomePageState extends State<HomePage> {
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ProfilPage()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return ProfilPage(
+                    id_user: id_user,
+                    name: nama,
+                    username: username,
+                    password: password,
+                    nohp: nohp,
+                    email: email,
+                  );
+                }));
               },
               child: BottomNavbarItem(
                 imageUrl: 'assets/user (1).png',

@@ -151,8 +151,12 @@ class _SigninState extends State<Signin> {
         var response = json.decode(res.body);
         if (response['response_status'] == "OK") {
           prefs.setBool('slogin', true);
-          prefs.setString('username', response['data'][0]['nama']);
+          prefs.setString('username', response['data'][0]['username']);
           prefs.setString('id_user', response['data'][0]['id']);
+          prefs.setString('password', response['data'][0]['password']);
+          prefs.setString('nohp', response['data'][0]['nohp']);
+          prefs.setString('nama', response['data'][0]['nama']);
+          prefs.setString('email', response['data'][0]['email']);
           // profil = Profil(
           //   id: 1,
           //   email: response['data'][0]['email'],

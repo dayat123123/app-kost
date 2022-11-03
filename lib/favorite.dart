@@ -36,13 +36,26 @@ class _FavPageState extends State<FavPage> {
   bool slogin = false;
   String id_user = "";
   String username = "";
+  String email = "";
+  String nohp = "";
+  String password = "";
+  String nama = "";
   _cekLogin() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       slogin = prefs.getBool('slogin') ?? false;
       username = prefs.getString('username') ?? "";
       id_user = prefs.getString('id_user') ?? "";
-      print("ID Login : ${id_user}");
+      email = prefs.getString('email') ?? "";
+      password = prefs.getString('password') ?? "";
+      nohp = prefs.getString('nohp') ?? "";
+      nama = prefs.getString('nama') ?? "";
+      print(nama);
+      print(nohp);
+      print(email);
+      print(username);
+      print(id_user);
+      print(password);
     });
   }
 
@@ -146,8 +159,17 @@ class _FavPageState extends State<FavPage> {
             ),
             InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ProfilPage()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return ProfilPage(
+                    id_user: id_user,
+                    name: nama,
+                    username: username,
+                    password: password,
+                    nohp: nohp,
+                    email: email,
+                  );
+                }));
               },
               child: BottomNavbarItem(
                 imageUrl: 'assets/user (1).png',
