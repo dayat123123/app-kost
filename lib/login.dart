@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:real_sokost/homepage.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'splashpage.dart';
-import 'login_widgets/styles/app_colors.dart';
-import 'login_widgets/widgets/custom_button.dart';
+// import 'splashpage.dart';
+// import 'login_widgets/styles/app_colors.dart';
+// import 'login_widgets/widgets/custom_button.dart';
 import 'login_widgets/widgets/custom_textfield.dart';
-import 'login_widgets/widgets/custom_header.dart';
-import 'login_widgets/widgets/custom_richtext.dart';
+// import 'login_widgets/widgets/custom_header.dart';
+// import 'login_widgets/widgets/custom_richtext.dart';
 import 'package:http/http.dart' as http;
 
 // class Siginin extends StatefulWidget {
@@ -223,6 +223,63 @@ class _SigninState extends State<Signin> {
     );
   }
 
+  _showDatakosong(BuildContext context) {
+    // ignore: deprecated_member_use
+    Widget okButton = FlatButton(
+        child: const Text("OK"), onPressed: () => Navigator.pop(context));
+    AlertDialog alert = AlertDialog(
+      title: const Text("Notifikasi"),
+      content: const Text("Email tidak boleh kosong"),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  _showDatakosong2(BuildContext context) {
+    // ignore: deprecated_member_use
+    Widget okButton = FlatButton(
+        child: const Text("OK"), onPressed: () => Navigator.pop(context));
+    AlertDialog alert = AlertDialog(
+      title: const Text("Notifikasi"),
+      content: const Text("Email dan Password tidak boleh kosong"),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  _showDatap(BuildContext context) {
+    // ignore: deprecated_member_use
+    Widget okButton = FlatButton(
+        child: const Text("OK"), onPressed: () => Navigator.pop(context));
+    AlertDialog alert = AlertDialog(
+      title: const Text("Notifikasi"),
+      content: const Text("Password tidak boleh kosong"),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -294,7 +351,16 @@ class _SigninState extends State<Signin> {
                   // ignore: deprecated_member_use
                   child: FlatButton(
                     onPressed: () {
-                      _cekLogin();
+                      if (emailcontroller.text == "" &&
+                          passwordcontroller.text == "") {
+                        _showDatakosong2(context);
+                      } else if (emailcontroller.text == "") {
+                        _showDatakosong(context);
+                      } else if (passwordcontroller.text == "") {
+                        _showDatap(context);
+                      } else {
+                        _cekLogin();
+                      }
                     },
                     child: const Text(
                       "Login",
