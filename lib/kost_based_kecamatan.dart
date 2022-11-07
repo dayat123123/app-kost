@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'space.dart';
 // import 'theme.dart';
 import 'constants.dart';
+import 'package:rating_bar/rating_bar.dart';
 
 class KostBasedKecamatan extends StatefulWidget {
   final String id;
@@ -196,15 +197,95 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
                                   }));
                                 },
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: edge, vertical: 2),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: edge),
                                   child: Column(
                                     children: [
                                       Row(
                                         children: [
-                                          Image.asset(
-                                            'assets/${b.imageUrl}',
-                                            width: 80,
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 20),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
+                                              child: Column(
+                                                children: [
+                                                  Stack(
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/${b.imageUrl}',
+                                                        width: 90,
+                                                      ),
+                                                      if (b.status == "Cowok")
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .topRight,
+                                                          child: Container(
+                                                            width: 50,
+                                                            height: 30,
+                                                            // ignore: prefer_const_constructors
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                              color:
+                                                                  Colors.black,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .only(
+                                                                // ignore: unnecessary_const
+                                                                bottomRight:
+                                                                    Radius
+                                                                        .circular(
+                                                                            16),
+                                                              ),
+                                                            ),
+                                                            child: Center(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/ml.png',
+                                                                height: 23,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      if (b.status == "Cewek")
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .topRight,
+                                                          child: Container(
+                                                            width: 50,
+                                                            height: 30,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  purpleColor,
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .only(
+                                                                // ignore: unnecessary_const
+                                                                bottomRight:
+                                                                    Radius
+                                                                        .circular(
+                                                                            16),
+                                                              ),
+                                                            ),
+                                                            child: Center(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/woman12.png',
+                                                                height: 23,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 31,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                           const SizedBox(
                                             width: 24,
@@ -228,10 +309,17 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
                                                 style: greyTextStyle.copyWith(
                                                     fontSize: 13),
                                               ),
-                                              Text(
-                                                "Rating : ${b.rating}",
-                                                style: greyTextStyle.copyWith(
-                                                    fontSize: 13),
+                                              RatingBar.readOnly(
+                                                initialRating:
+                                                    double.parse(b.rating),
+                                                isHalfAllowed: true,
+                                                halfFilledIcon: Icons.star_half,
+                                                filledIcon: Icons.star,
+                                                emptyIcon: Icons.star_border,
+                                                size: 16,
+                                                filledColor:
+                                                    const Color.fromARGB(
+                                                        255, 252, 109, 37),
                                               ),
                                               Text(
                                                 b.address,
@@ -277,15 +365,95 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
                                   }));
                                 },
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: edge, vertical: 2),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: edge),
                                   child: Column(
                                     children: [
                                       Row(
                                         children: [
-                                          Image.asset(
-                                            'assets/${a.imageUrl}',
-                                            width: 80,
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 20),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
+                                              child: Column(
+                                                children: [
+                                                  Stack(
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/${a.imageUrl}',
+                                                        width: 90,
+                                                      ),
+                                                      if (a.status == "Cowok")
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .topRight,
+                                                          child: Container(
+                                                            width: 50,
+                                                            height: 30,
+                                                            // ignore: prefer_const_constructors
+                                                            decoration:
+                                                                const BoxDecoration(
+                                                              color:
+                                                                  Colors.black,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .only(
+                                                                // ignore: unnecessary_const
+                                                                bottomRight:
+                                                                    Radius
+                                                                        .circular(
+                                                                            16),
+                                                              ),
+                                                            ),
+                                                            child: Center(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/ml.png',
+                                                                height: 23,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      if (a.status == "Cewek")
+                                                        Align(
+                                                          alignment: Alignment
+                                                              .topRight,
+                                                          child: Container(
+                                                            width: 50,
+                                                            height: 30,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  purpleColor,
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .only(
+                                                                // ignore: unnecessary_const
+                                                                bottomRight:
+                                                                    Radius
+                                                                        .circular(
+                                                                            16),
+                                                              ),
+                                                            ),
+                                                            child: Center(
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/woman12.png',
+                                                                height: 23,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 31,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                           const SizedBox(
                                             width: 24,
@@ -309,10 +477,17 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
                                                 style: greyTextStyle.copyWith(
                                                     fontSize: 13),
                                               ),
-                                              Text(
-                                                "Rating : ${a.rating}",
-                                                style: greyTextStyle.copyWith(
-                                                    fontSize: 13),
+                                              RatingBar.readOnly(
+                                                initialRating:
+                                                    double.parse(a.rating),
+                                                isHalfAllowed: true,
+                                                halfFilledIcon: Icons.star_half,
+                                                filledIcon: Icons.star,
+                                                emptyIcon: Icons.star_border,
+                                                size: 16,
+                                                filledColor:
+                                                    const Color.fromARGB(
+                                                        255, 252, 109, 37),
                                               ),
                                               Text(
                                                 a.address,
