@@ -39,7 +39,7 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final data2 = json.decode(response.body);
-      final data = data2.where((data2) => data2['id'] == widget.id);
+      final data = data2.where((data2) => data2['id'] != widget.id);
 
       setState(() {
         for (var u in data) {
@@ -155,9 +155,9 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 5,
-            ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
               child: SizedBox(
@@ -326,7 +326,7 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
                                                 style: greyTextStyle.copyWith(
                                                     fontSize: 13),
                                               ),
-                                              const SizedBox(height: 10)
+                                              const SizedBox(height: 15)
                                             ],
                                           ),
                                         ],
@@ -494,7 +494,7 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
                                                 style: greyTextStyle.copyWith(
                                                     fontSize: 13),
                                               ),
-                                              const SizedBox(height: 10)
+                                              const SizedBox(height: 15)
                                             ],
                                           ),
                                         ],

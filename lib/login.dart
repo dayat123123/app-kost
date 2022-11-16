@@ -1,7 +1,9 @@
 // ignore_for_file: empty_catches
 
 import 'package:flutter/material.dart';
+import 'package:real_sokost/admin_page/homeadmin.dart';
 import 'package:real_sokost/homepage.dart';
+import 'package:real_sokost/splashpage.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 // import 'splashpage.dart';
@@ -157,6 +159,13 @@ class _SigninState extends State<Signin> {
           prefs.setString('nohp', response['data'][0]['nohp']);
           prefs.setString('nama', response['data'][0]['nama']);
           prefs.setString('email', response['data'][0]['email']);
+          prefs.setString('role', response['data'][0]['role']);
+
+          if (response['data'][0]['role'] == 'Admin') {
+            _showAlertDialogBerhasil(context);
+          } else if (response['data'][0]['role'] == 'Customer') {
+            _showAlertDialogBerhasilC(context);
+          }
           // profil = Profil(
           //   id: 1,
           //   email: response['data'][0]['email'],
@@ -167,7 +176,6 @@ class _SigninState extends State<Signin> {
           setState(() {
             visible = false;
           });
-          _showAlertDialogBerhasil(context);
         } else {
           setState(() {
             visible = false;
@@ -184,12 +192,36 @@ class _SigninState extends State<Signin> {
       child: const Text("OK"),
       onPressed: () => Navigator.of(context, rootNavigator: true)
           .pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const HomeAdmin()),
+              (Route<dynamic> route) => false),
+    );
+    AlertDialog alert = AlertDialog(
+      title: const Text("Notifikasi"),
+      content: const Text("Login Berhasil Admin"),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  _showAlertDialogBerhasilC(BuildContext context) {
+    // ignore: deprecated_member_use
+    Widget okButton = FlatButton(
+      child: const Text("OK"),
+      onPressed: () => Navigator.of(context, rootNavigator: true)
+          .pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => const HomePage()),
               (Route<dynamic> route) => false),
     );
     AlertDialog alert = AlertDialog(
       title: const Text("Notifikasi"),
-      content: const Text("Login Berhasil"),
+      content: const Text("Login Berhasil User"),
       actions: [
         okButton,
       ],
