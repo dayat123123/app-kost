@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:real_sokost/admin_page/kostdetailadm.dart';
 import 'package:real_sokost/theme.dart';
 import '../button_navbar_item.dart';
 import '../space.dart';
@@ -126,22 +127,31 @@ class _HomeAdminState extends State<HomeAdmin> {
   }
 
   Widget _buildCard(
-    Space makanan,
+    Space space,
     context,
   ) {
     return Padding(
       padding: const EdgeInsets.all(4),
       child: InkWell(
         onTap: () {
-          // Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          //   return MakananDetail2(
-          //     idumum: makanan.id,
-          //     fotopath: makanan.foto,
-          //     umumname: makanan.nama,
-          //     umumharga: makanan.harga,
-          //     umumket: makanan.keterangan,
-          //   );
-          // }));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return KostDetailA(
+              id: space.id,
+              name: space.name,
+              imageUrl: space.imageUrl,
+              price: space.price,
+              city: space.city,
+              country: space.country,
+              rating: space.rating,
+              address: space.address,
+              phone: space.phone,
+              mapUrl: space.mapUrl,
+              status: space.status,
+              numberOfBedrooms: space.numberOfBedrooms,
+              numberOfCupboards: space.numberOfCupboards,
+              numberOfKitchens: space.numberOfKitchens,
+            );
+          }));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -158,8 +168,11 @@ class _HomeAdminState extends State<HomeAdmin> {
           child: ListView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
+              const SizedBox(
+                height: 10,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(
                   right: 8,
                   top: 8,
                 ),
@@ -168,48 +181,17 @@ class _HomeAdminState extends State<HomeAdmin> {
               Container(
                 height: 100,
                 width: 100,
-                // decoration: BoxDecoration(
-                //   borderRadius: BorderRadius.circular(16),
-                //   image: DecorationImage(
-                //     image: NetworkImage(
-                //         'http://percobaan.slkbankum.com/api/image/${makanan.foto}'),
-                //     fit: BoxFit.contain,
-                //   ),
-                // ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  image: DecorationImage(
+                    image: AssetImage('assets/${space.imageUrl}'),
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ),
-              // else
-              //   Container(
-              //     height: 100,
-              //     width: 100,
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(16),
-              //       image: DecorationImage(
-              //         image: NetworkImage(
-              //             'http://percobaan.slkbankum.com/api/image_kue/${cake3.foto}'),
-              //         fit: BoxFit.contain,
-              //       ),
-              //     ),
-              //   ),
+
               const SizedBox(height: 8),
-              // Center(
-              //   child: Text(
-              //     'Rp ${makanan.harga}',
-              //     style: const TextStyle(
-              //         color: Color(0xFFCC8053),
-              //         fontFamily: 'Varela',
-              //         fontSize: 16),
-              //   ),
-              // ),
-              // Center(
-              //   child: Text(
-              //     makanan.nama,
-              //     overflow: TextOverflow.ellipsis,
-              //     style: const TextStyle(
-              //         color: Color(0xFF575E67),
-              //         fontFamily: 'Varela',
-              //         fontSize: 14),
-              //   ),
-              // ),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -219,52 +201,70 @@ class _HomeAdminState extends State<HomeAdmin> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
                   children: [
                     Row(
-                      // ignore: prefer_const_literals_to_create_immutables
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.chat,
-                          color: Color(0xFFD17E50),
-                          size: 16,
+                        Row(
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: [
+                            Text(
+                              '${space.name}',
+                              style: const TextStyle(
+                                  fontFamily: 'Varela',
+                                  color: const Color(0xFFD17E50),
+                                  fontSize: 13),
+                            ),
+                          ],
                         ),
                         const SizedBox(
-                          width: 8,
-                        ),
-                        const Text(
-                          'Chat',
-                          style: TextStyle(
-                              fontFamily: 'Varela',
-                              color: Color(0xFFD17E50),
-                              fontSize: 12),
+                          width: 10,
                         ),
                       ],
                     ),
                     const SizedBox(
-                      width: 16,
+                      height: 10,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.alarm,
-                          color: Color(0xFFD17E50),
-                          size: 16,
+                        Row(
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: [
+                            Text(
+                              'Rp. ${space.price}',
+                              style: const TextStyle(
+                                  fontFamily: 'Varela',
+                                  color: Color(0xFFD17E50),
+                                  fontSize: 12),
+                            ),
+                          ],
                         ),
                         const SizedBox(
-                          width: 3,
+                          width: 10,
                         ),
-                        Text(
-                          makanan.status,
-                          style: const TextStyle(
-                              fontFamily: 'Varela',
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.king_bed,
                               color: Color(0xFFD17E50),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12),
-                        ),
-                        const SizedBox(
-                          width: 8,
+                              size: 16,
+                            ),
+                            const SizedBox(
+                              width: 3,
+                            ),
+                            Text(
+                              space.status,
+                              style: const TextStyle(
+                                  fontFamily: 'Varela',
+                                  color: Color(0xFFD17E50),
+                                  fontSize: 12),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                          ],
                         ),
                       ],
                     ),
