@@ -59,7 +59,7 @@ class _HomeAdminState extends State<HomeAdmin> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
+                  mainAxisSpacing: 3,
                   childAspectRatio: 0.7,
                 ),
                 // controller: _scroll,

@@ -45,17 +45,20 @@ class KostDetailA extends StatefulWidget {
   State<KostDetailA> createState() => _KostDetailAState();
 }
 
-final List _listkategori = ["Makanan", "Minuman", "Skincare", "Lainnya"];
+final List _listkategori = ["Cowok", "Cewek"];
 String _kategori;
 
 class _KostDetailAState extends State<KostDetailA> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController txtnama, txtprice, txtaddress;
+    TextEditingController txtnama, txtprice, txtaddress, txtjd, txtjl, txtjk;
     setup() {
       txtnama = TextEditingController(text: widget.name);
       txtprice = TextEditingController(text: widget.price);
       txtaddress = TextEditingController(text: widget.address);
+      txtjk = TextEditingController(text: widget.numberOfBedrooms);
+      txtjl = TextEditingController(text: widget.numberOfCupboards);
+      txtjd = TextEditingController(text: widget.numberOfKitchens);
     }
 
     // print("Ini berulang");
@@ -166,6 +169,45 @@ class _KostDetailAState extends State<KostDetailA> {
                 SizedBox(
                   height: 10,
                 ),
+                CustomFormField(
+                  headingText: "Jumlah Kasur",
+                  hintText: "jumlah kasur..",
+                  obsecureText: false,
+                  // suffixIcon: const SizedBox(),
+                  textInputType: TextInputType.number,
+                  controller: txtjk,
+                  maxLines: 1,
+                  textInputAction: TextInputAction.done,
+                ),
+                const SizedBox(
+                  height: 19,
+                ),
+                CustomFormField(
+                  headingText: "Jumlah Dapur",
+                  hintText: "jumlah dapur..",
+                  obsecureText: false,
+                  // suffixIcon: const SizedBox(),
+                  textInputType: TextInputType.number,
+                  controller: txtjd,
+                  maxLines: 1,
+                  textInputAction: TextInputAction.done,
+                ),
+                const SizedBox(
+                  height: 19,
+                ),
+                CustomFormField(
+                  headingText: "Jumlah Lemari",
+                  hintText: "jumlah lemari..",
+                  obsecureText: false,
+                  // suffixIcon: const SizedBox(),
+                  textInputType: TextInputType.number,
+                  controller: txtjl,
+                  maxLines: 1,
+                  textInputAction: TextInputAction.done,
+                ),
+                const SizedBox(
+                  height: 19,
+                ),
                 // ignore: prefer_const_constructors
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
@@ -178,7 +220,7 @@ class _KostDetailAState extends State<KostDetailA> {
                   padding: const EdgeInsets.only(left: 25),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton(
-                      hint: const Text("--Kategori--"),
+                      hint: const Text("--Jenis Kost--"),
                       value: _kategori,
                       items: _listkategori.map((value) {
                         return DropdownMenuItem(
@@ -196,8 +238,17 @@ class _KostDetailAState extends State<KostDetailA> {
                   ),
                 ),
                 const SizedBox(
-                  height: 0,
+                  height: 10,
                 ),
+                // ignore: prefer_const_constructors
+                Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: const Text(
+                    "Kecamatan",
+                    style: KTextStyle.textFieldHeading,
+                  ),
+                ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -222,6 +273,9 @@ class _KostDetailAState extends State<KostDetailA> {
                   },
                   text: 'Delete data',
                 ),
+                const SizedBox(
+                  height: 30,
+                )
               ],
             ),
           ),

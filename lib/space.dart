@@ -44,7 +44,7 @@ class Space {
         mapUrl: json['mapUrl'],
         photos: json['photos'],
         numberOfBedrooms: json['numberOfBedrooms'],
-        numberOfCupboards: json[' numberOfCupboards'],
+        numberOfCupboards: json['numberOfCupboards'],
         numberOfKitchens: json['numberOfKitchens'],
         status: json['status'],
       );
