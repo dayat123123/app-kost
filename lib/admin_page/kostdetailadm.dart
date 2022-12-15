@@ -1,9 +1,12 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../login_widgets/styles/text_styles.dart';
 import '../login_widgets/widgets/custom_button.dart';
 import '../login_widgets/widgets/custom_button2.dart';
 import '../login_widgets/widgets/custom_textfield.dart';
+import 'homeadmin.dart';
 
 class KostDetailA extends StatefulWidget {
   final String id;
@@ -60,6 +63,66 @@ class _KostDetailAState extends State<KostDetailA> {
       txtjl = TextEditingController(text: widget.numberOfCupboards);
       txtjd = TextEditingController(text: widget.numberOfKitchens);
     }
+
+    // untuk update data
+    _updatedata() async {
+      // ignore: prefer_const_declarations
+      final String sUrl = "http://sofiaal.slkbankum.com/api/updateKost.php";
+      final prefs = await SharedPreferences.getInstance();
+      var params = "?name=" +
+          txtnama.text +
+          "&price=" +
+          txtprice.text +
+          "&address=" +
+          txtaddress.text +
+          // "&numberOfKitchens=" +
+          // txtjd.text +
+          // "&numberOfBedrooms=" +
+          // txtjk.text +
+          // "&numberOfCupboards=" +
+          // txtjl.text +
+          // "&status=" +
+          // _kategori +
+          "&id=" +
+          widget.id;
+
+      try {
+        var res = await http.get(Uri.parse(sUrl + params));
+        if (res.statusCode == 200) {
+          var response = json.decode(res.body);
+          if (response['response_status'] == "OK") {
+            prefs.setBool('slogin', true);
+            Widget okButton = FlatButton(
+              child: const Text("OK"),
+              onPressed: () => Navigator.of(context, rootNavigator: true)
+                  .pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) => const HomeAdmin()),
+                      (Route<dynamic> route) => false),
+            );
+            AlertDialog alert = AlertDialog(
+              title: const Text("Notifikasi"),
+              content: const Text("Data berhasil di update"),
+              actions: [
+                okButton,
+              ],
+            );
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return alert;
+              },
+            );
+          } else {
+            // ignore: avoid_print
+            print("Gagal");
+            // _showAlertDialog(context, response['response_message']);
+          }
+        }
+      } catch (e) {}
+    }
+
+    // batas update data
 
     // print("Ini berulang");
     setup();
@@ -260,7 +323,7 @@ class _KostDetailAState extends State<KostDetailA> {
                 ),
                 AuthButton(
                   onTap: () {
-                    // _updatedata();
+                    _updatedata();
                   },
                   text: 'Edit data',
                 ),
