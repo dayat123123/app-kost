@@ -38,7 +38,7 @@ class _HomeAdminState extends State<HomeAdmin> {
       appBar: AppBar(
         title: Center(
           child: Text(
-            "Wellcome Admin",
+            "Welcome Admin",
             style: blackTextStyle.copyWith(fontSize: 20),
           ),
         ),

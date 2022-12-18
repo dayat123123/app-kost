@@ -51,6 +51,9 @@ class KostDetailA extends StatefulWidget {
 final List _listkategori = ["Cowok", "Cewek"];
 String _kategori;
 
+final List _listkecamatan = ["Payung Sekaki", "Bukit Barisan"];
+String _kecamatan;
+
 class _KostDetailAState extends State<KostDetailA> {
   @override
   Widget build(BuildContext context) {
@@ -75,14 +78,14 @@ class _KostDetailAState extends State<KostDetailA> {
           txtprice.text +
           "&address=" +
           txtaddress.text +
-          // "&numberOfKitchens=" +
-          // txtjd.text +
-          // "&numberOfBedrooms=" +
-          // txtjk.text +
-          // "&numberOfCupboards=" +
-          // txtjl.text +
-          // "&status=" +
-          // _kategori +
+          "&numberOfKitchens=" +
+          txtjd.text +
+          "&numberOfBedrooms=" +
+          txtjk.text +
+          "&numberOfCupboards=" +
+          txtjl.text +
+          "&status=" +
+          _kategori +
           "&id=" +
           widget.id;
 
@@ -304,13 +307,34 @@ class _KostDetailAState extends State<KostDetailA> {
                   height: 10,
                 ),
                 // ignore: prefer_const_constructors
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: const Text(
-                    "Kecamatan",
-                    style: KTextStyle.textFieldHeading,
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 20),
+                //   child: const Text(
+                //     "Kecamatan",
+                //     style: KTextStyle.textFieldHeading,
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 25),
+                //   child: DropdownButtonHideUnderline(
+                //     child: DropdownButton(
+                //       hint: const Text("--Kecamatan--"),
+                //       value: _kecamatan,
+                //       items: _listkecamatan.map((value) {
+                //         return DropdownMenuItem(
+                //           child: Text(value),
+                //           value: value,
+                //         );
+                //       }).toList(),
+                //       onChanged: (value) {
+                //         setState(() {
+                //           _kategori =
+                //               value; //Untuk memberitahu _valFriends bahwa isi nya akan diubah sesuai dengan value yang kita pilih
+                //         });
+                //       },
+                //     ),
+                //   ),
+                // ),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
