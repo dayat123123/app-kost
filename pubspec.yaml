@@ -44,6 +44,7 @@ dependencies:
   map_launcher: ^2.4.0
   rating_bar: ^0.2.0
   image_picker: ^0.8.6
+  flutter_bloc: ^7.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

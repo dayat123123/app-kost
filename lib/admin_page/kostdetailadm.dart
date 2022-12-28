@@ -57,6 +57,7 @@ class KostDetailA extends StatefulWidget {
 
 class _KostDetailAState extends State<KostDetailA> {
   _showAlertDialog2(BuildContext context) {
+    // ignore: deprecated_member_use
     Widget okButton = FlatButton(
       child: const Text("OK"),
       onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
@@ -215,6 +216,7 @@ class _KostDetailAState extends State<KostDetailA> {
     }
 
     _showAlertDialogBerhasil(BuildContext context) {
+      // ignore: deprecated_member_use
       Widget okButton = FlatButton(
         child: const Text("OK"),
         onPressed: () => Navigator.of(context, rootNavigator: true)
@@ -238,6 +240,7 @@ class _KostDetailAState extends State<KostDetailA> {
     }
 
     _showAlertDialog(BuildContext context) {
+      // ignore: deprecated_member_use
       Widget okButton = FlatButton(
         child: const Text("OK"),
         onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
@@ -271,6 +274,47 @@ class _KostDetailAState extends State<KostDetailA> {
       } else {
         _showAlertDialog(context);
       }
+    }
+
+    _deleteData() async {
+      // ignore: prefer_const_declarations
+      final String sUrl = "http://sofiaal.slkbankum.com/api/deletekost.php";
+      final prefs = await SharedPreferences.getInstance();
+      var params = "?id=" + widget.id;
+      try {
+        var res = await http.get(Uri.parse(sUrl + params));
+        if (res.statusCode == 200) {
+          var response = json.decode(res.body);
+          if (response['response_status'] == "OK") {
+            prefs.setBool('slogin', true);
+            Widget okButton = FlatButton(
+              child: const Text("OK"),
+              onPressed: () => Navigator.of(context, rootNavigator: true)
+                  .pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) => const HomeAdmin()),
+                      (Route<dynamic> route) => false),
+            );
+            AlertDialog alert = AlertDialog(
+              title: const Text("Notifikasi"),
+              content: const Text("Data berhasil di hapus"),
+              actions: [
+                okButton,
+              ],
+            );
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return alert;
+              },
+            );
+          } else {
+            // ignore: avoid_print
+            print("Gagal");
+            // _showAlertDialog(context, response['response_message']);
+          }
+        }
+      } catch (e) {}
     }
 
     // batas
@@ -365,8 +409,37 @@ class _KostDetailAState extends State<KostDetailA> {
                           ),
                   ),
                   const SizedBox(
-                    height: 14,
+                    height: 5,
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      "Jenis Kost (${widget.status})",
+                      style: KTextStyle.textFieldHeading,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        hint: const Text("--Jenis Kost--"),
+                        value: _kategori,
+                        items: _listkategori.map((value) {
+                          return DropdownMenuItem(
+                            child: Text(value),
+                            value: value,
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _kategori =
+                                value; //Untuk memberitahu _valFriends bahwa isi nya akan diubah sesuai dengan value yang kita pilih
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+
                   CustomFormField(
                     headingText: "Nama",
                     hintText: "nama kost..",
@@ -440,38 +513,11 @@ class _KostDetailAState extends State<KostDetailA> {
                     maxLines: 1,
                     textInputAction: TextInputAction.done,
                   ),
-                  const SizedBox(
-                    height: 19,
-                  ),
-                  // ignore: prefer_const_constructors
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      "Jenis Kost (${widget.status})",
-                      style: KTextStyle.textFieldHeading,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        hint: const Text("--Jenis Kost--"),
-                        value: _kategori,
-                        items: _listkategori.map((value) {
-                          return DropdownMenuItem(
-                            child: Text(value),
-                            value: value,
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _kategori =
-                                value; //Untuk memberitahu _valFriends bahwa isi nya akan diubah sesuai dengan value yang kita pilih
-                          });
-                        },
-                      ),
-                    ),
-                  ),
+                  // const SizedBox(
+                  //   height: 19,
+                  // ),
+                  // // ignore: prefer_const_constructors
+
                   const SizedBox(
                     height: 10,
                   ),
@@ -525,7 +571,7 @@ class _KostDetailAState extends State<KostDetailA> {
                   ),
                   AuthButton2(
                     onTap: () {
-                      // _deletedata();
+                      _deleteData();
                     },
                     text: 'Delete data',
                   ),
