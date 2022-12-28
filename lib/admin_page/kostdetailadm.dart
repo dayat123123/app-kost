@@ -56,6 +56,26 @@ class KostDetailA extends StatefulWidget {
 // String _kecamatan;
 
 class _KostDetailAState extends State<KostDetailA> {
+  _showAlertDialog2(BuildContext context) {
+    Widget okButton = FlatButton(
+      child: const Text("OK"),
+      onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+    );
+    AlertDialog alert = AlertDialog(
+      title: const Text("Perhatian"),
+      content: const Text("Jenis kost tidak boleh kosong"),
+      actions: [
+        okButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   final List _listkategori = ["Cowok", "Cewek"];
   String _kategori;
   TextEditingController txtnama, txtprice, txtaddress, txtjd, txtjl, txtjk;
@@ -139,58 +159,59 @@ class _KostDetailAState extends State<KostDetailA> {
       // ignore: prefer_const_declarations
       final String sUrl = "http://sofiaal.slkbankum.com/api/updateKost.php";
       final prefs = await SharedPreferences.getInstance();
-      var params = "?name=" +
-          txtnama.text +
-          "&price=" +
-          txtprice.text +
-          "&address=" +
-          txtaddress.text +
-          "&numberOfKitchens=" +
-          txtjd.text +
-          "&numberOfBedrooms=" +
-          txtjk.text +
-          "&numberOfCupboards=" +
-          txtjl.text +
-          "&status=" +
-          _kategori +
-          "&id=" +
-          widget.id;
-
       try {
-        var res = await http.get(Uri.parse(sUrl + params));
-        if (res.statusCode == 200) {
-          var response = json.decode(res.body);
-          if (response['response_status'] == "OK") {
-            prefs.setBool('slogin', true);
-            // ignore: deprecated_member_use
-            Widget okButton = FlatButton(
-              child: const Text("OK"),
-              onPressed: () => Navigator.of(context, rootNavigator: true)
-                  .pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => const HomeAdmin()),
-                      (Route<dynamic> route) => false),
-            );
-            AlertDialog alert = AlertDialog(
-              title: const Text("Notifikasi"),
-              content: const Text("Data berhasil di update"),
-              actions: [
-                okButton,
-              ],
-            );
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return alert;
-              },
-            );
-          } else {
-            // ignore: avoid_print
-            print("Gagal");
-            // _showAlertDialog(context, response['response_message']);
-          }
-        }
-      } catch (e) {}
+        if (jeniss != "") {
+          var params = "?name=" +
+              txtnama.text +
+              "&price=" +
+              txtprice.text +
+              "&address=" +
+              txtaddress.text +
+              "&numberOfKitchens=" +
+              txtjd.text +
+              "&numberOfBedrooms=" +
+              txtjk.text +
+              "&numberOfCupboards=" +
+              txtjl.text +
+              "&status=" +
+              _kategori +
+              "&id=" +
+              widget.id;
+          try {
+            var res = await http.get(Uri.parse(sUrl + params));
+            if (res.statusCode == 200) {
+              var response = json.decode(res.body);
+              if (response['response_status'] == "OK") {
+                prefs.setBool('slogin', true);
+                // ignore: deprecated_member_use
+                Widget okButton = FlatButton(
+                  child: const Text("OK"),
+                  onPressed: () => Navigator.of(context, rootNavigator: true)
+                      .pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const HomeAdmin()),
+                          (Route<dynamic> route) => false),
+                );
+                AlertDialog alert = AlertDialog(
+                  title: const Text("Notifikasi"),
+                  content: const Text("Data berhasil di update"),
+                  actions: [
+                    okButton,
+                  ],
+                );
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return alert;
+                  },
+                );
+              }
+            }
+          } catch (e) {}
+        } else {}
+      } catch (e) {
+        _showAlertDialog2(context);
+      }
     }
 
     _showAlertDialogBerhasil(BuildContext context) {
