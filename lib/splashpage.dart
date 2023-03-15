@@ -68,17 +68,13 @@ class _SplashPageState extends State<SplashPage> {
                     width: 210,
                     height: 50,
                     // ignore: deprecated_member_use
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const Signin()));
                       },
-                      color: purpleColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(17),
-                      ),
                       child: Text(
                         'Explore Now',
                         style: whiteTextStyle.copyWith(

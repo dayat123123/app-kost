@@ -213,8 +213,8 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
                                                 children: [
                                                   Stack(
                                                     children: [
-                                                      Image.asset(
-                                                        'assets/${b.imageUrl}',
+                                                      Image.network(
+                                                        'http://sofiaal.slkbankum.com/api/image/${b.imageUrl}',
                                                         width: 90,
                                                       ),
                                                       if (b.status == "Cowok")
@@ -381,8 +381,8 @@ class _KostBasedKecamatanState extends State<KostBasedKecamatan> {
                                                 children: [
                                                   Stack(
                                                     children: [
-                                                      Image.asset(
-                                                        'assets/${a.imageUrl}',
+                                                      Image.network(
+                                                        'http://sofiaal.slkbankum.com/api/image/${a.imageUrl}',
                                                         width: 90,
                                                       ),
                                                       if (a.status == "Cowok")

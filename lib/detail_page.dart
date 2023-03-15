@@ -77,7 +77,7 @@ class _DetailKostState extends State<DetailKost> {
   bool isFavorite = false;
   // untuk pop up notif masukkan favorit
   _showAlertDialog(BuildContext context) {
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -108,8 +108,12 @@ class _DetailKostState extends State<DetailKost> {
       ),
       content: Row(
         children: [
-          Image.asset(
-            'assets/${widget.imageUrl}',
+          // Image.asset(
+          //   'assets/${widget.imageUrl}',
+          //   height: 50,
+          // ),
+          Image.network(
+            "http://sofiaal.slkbankum.com/api/image/${widget.imageUrl}",
             height: 50,
           ),
           const SizedBox(
@@ -148,7 +152,7 @@ class _DetailKostState extends State<DetailKost> {
 
   // batas
   _showAlertDialog2(BuildContext context) {
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -179,8 +183,8 @@ class _DetailKostState extends State<DetailKost> {
       ),
       content: Row(
         children: [
-          Image.asset(
-            'assets/${widget.imageUrl}',
+          Image.network(
+            "http://sofiaal.slkbankum.com/api/image/${widget.imageUrl}",
             height: 50,
           ),
           const SizedBox(
@@ -220,7 +224,7 @@ class _DetailKostState extends State<DetailKost> {
         var response = json.decode(res.body);
         if (response['response_status'] == "OK") {
           prefs.setBool('slogin', true);
-          Widget okButton = FlatButton(
+          Widget okButton = ElevatedButton(
             child: Text(
               "OK",
               style: blackTextStyle.copyWith(fontSize: 20),
@@ -273,7 +277,7 @@ class _DetailKostState extends State<DetailKost> {
         var response = json.decode(res.body);
         if (response['response_status'] == "OK") {
           prefs.setBool('slogin', true);
-          Widget okButton = FlatButton(
+          Widget okButton = ElevatedButton(
             child: Text(
               "OK",
               style: blackTextStyle.copyWith(fontSize: 20),
@@ -312,47 +316,6 @@ class _DetailKostState extends State<DetailKost> {
       print("gaagal");
     }
   }
-  // batas bawah
-
-  // openMapsSheet(context) async {
-  //   try {
-  //     var latitude = 37.759392;
-  //     var coords = Coords(latitude, -122.5107336);
-  //     final title = "${widget.name}";
-  //     final availableMaps = await MapLauncher.installedMaps;
-
-  //     showModalBottomSheet(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return SafeArea(
-  //           child: SingleChildScrollView(
-  //             child: Container(
-  //               child: Wrap(
-  //                 children: <Widget>[
-  //                   for (var map in availableMaps)
-  //                     ListTile(
-  //                       onTap: () => map.showMarker(
-  //                         coords: coords,
-  //                         title: title,
-  //                       ),
-  //                       title: Text(map.mapName),
-  //                       leading: Image.asset(
-  //                         'assets/city1.png',
-  //                         height: 30.0,
-  //                         width: 30.0,
-  //                       ),
-  //                     ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         );
-  //       },
-  //     );
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
   googleMapada() async {
     String googleUrl =
@@ -405,8 +368,8 @@ class _DetailKostState extends State<DetailKost> {
         bottom: false,
         child: Stack(
           children: [
-            Image.asset(
-              'assets/${widget.imageUrl}',
+            Image.network(
+              "http://sofiaal.slkbankum.com/api/image/${widget.imageUrl}",
               width: MediaQuery.of(context).size.width,
               height: 350,
               fit: BoxFit.cover,
@@ -586,8 +549,8 @@ class _DetailKostState extends State<DetailKost> {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
-                                  child: Image.asset(
-                                    "assets/${widget.imageUrl}",
+                                  child: Image.network(
+                                    "http://sofiaal.slkbankum.com/api/image/${widget.imageUrl}",
                                     width: 110,
                                     height: 88,
                                     fit: BoxFit.cover,
@@ -641,7 +604,7 @@ class _DetailKostState extends State<DetailKost> {
                         ),
                         height: 45,
                         width: MediaQuery.of(context).size.width - (2 * edge),
-                        child: FlatButton(
+                        child: ElevatedButton(
                           onPressed: () async {
                             await FlutterLaunch.launchWhatsapp(
                               phone: '6282388623670',
@@ -649,10 +612,6 @@ class _DetailKostState extends State<DetailKost> {
                                   'Hi ${widget.id},Saya mau order ${widget.name} untuk hari ini, apakah tersedia?',
                             );
                           },
-                          color: purpleColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(17),
-                          ),
                           child: Text(
                             'Book Now',
                             style: whiteTextStyle.copyWith(

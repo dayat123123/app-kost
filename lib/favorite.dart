@@ -224,8 +224,8 @@ class _FavPageState extends State<FavPage> {
                         children: [
                           Stack(
                             children: [
-                              Image.asset(
-                                'assets/${space.imageUrl}',
+                              Image.network(
+                                'http://sofiaal.slkbankum.com/api/image/${space.imageUrl}',
                                 width: 90,
                               ),
                               if (space.status == "Cowok")

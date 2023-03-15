@@ -14,6 +14,7 @@ class Space {
   final String numberOfBedrooms;
   final String numberOfCupboards;
   final String status;
+  final String id_user;
   Space(
       {this.id,
       this.name,
@@ -29,7 +30,8 @@ class Space {
       this.numberOfBedrooms,
       this.numberOfCupboards,
       this.numberOfKitchens,
-      this.status});
+      this.status,
+      this.id_user});
 
   factory Space.fromJson(Map<String, dynamic> json) => Space(
         id: json['id'],
@@ -47,5 +49,6 @@ class Space {
         numberOfCupboards: json['numberOfCupboards'],
         numberOfKitchens: json['numberOfKitchens'],
         status: json['status'],
+        id_user: json['id_user'],
       );
 }

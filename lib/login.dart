@@ -188,7 +188,7 @@ class _SigninState extends State<Signin> {
 
   _showAlertDialogBerhasil(BuildContext context) {
     // ignore: deprecated_member_use
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
       child: const Text("OK"),
       onPressed: () => Navigator.of(context, rootNavigator: true)
           .pushAndRemoveUntil(
@@ -212,7 +212,7 @@ class _SigninState extends State<Signin> {
 
   _showAlertDialogBerhasilC(BuildContext context) {
     // ignore: deprecated_member_use
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
       child: const Text("OK"),
       onPressed: () => Navigator.of(context, rootNavigator: true)
           .pushAndRemoveUntil(
@@ -236,7 +236,7 @@ class _SigninState extends State<Signin> {
 
   _showAlertDialog(BuildContext context, String err) {
     // ignore: deprecated_member_use
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
       child: const Text("OK"),
       onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
     );
@@ -257,7 +257,7 @@ class _SigninState extends State<Signin> {
 
   _showDatakosong(BuildContext context) {
     // ignore: deprecated_member_use
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
         child: const Text("OK"), onPressed: () => Navigator.pop(context));
     AlertDialog alert = AlertDialog(
       title: const Text("Notifikasi"),
@@ -276,7 +276,7 @@ class _SigninState extends State<Signin> {
 
   _showDatakosong2(BuildContext context) {
     // ignore: deprecated_member_use
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
         child: const Text("OK"), onPressed: () => Navigator.pop(context));
     AlertDialog alert = AlertDialog(
       title: const Text("Notifikasi"),
@@ -295,7 +295,7 @@ class _SigninState extends State<Signin> {
 
   _showDatap(BuildContext context) {
     // ignore: deprecated_member_use
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
         child: const Text("OK"), onPressed: () => Navigator.pop(context));
     AlertDialog alert = AlertDialog(
       title: const Text("Notifikasi"),
@@ -381,7 +381,7 @@ class _SigninState extends State<Signin> {
                       color: Colors.blue,
                       borderRadius: BorderRadius.circular(20)),
                   // ignore: deprecated_member_use
-                  child: FlatButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       if (emailcontroller.text == "" &&
                           passwordcontroller.text == "") {
@@ -402,7 +402,7 @@ class _SigninState extends State<Signin> {
                 ),
               ),
               // ignore: deprecated_member_use
-              FlatButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },

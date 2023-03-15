@@ -124,7 +124,6 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: 170,
               child: ListView(
-                // ignore: prefer_const_literals_to_create_immutables
                 children: [
                   const SizedBox(
                     width: 24,
@@ -370,8 +369,8 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Stack(
                             children: [
-                              Image.asset(
-                                'assets/${space.imageUrl}',
+                              Image.network(
+                                "http://sofiaal.slkbankum.com/api/image/${space.imageUrl}",
                                 width: 90,
                               ),
                               if (space.status == "Cowok")

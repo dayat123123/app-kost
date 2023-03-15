@@ -70,7 +70,7 @@ class _ProfilPageState extends State<ProfilPage> {
           var response = json.decode(res.body);
           if (response['response_status'] == "OK") {
             prefs.setBool('slogin', true);
-            Widget okButton = FlatButton(
+            Widget okButton = ElevatedButton(
               child: Text("OK"),
               onPressed: () => Navigator.of(context, rootNavigator: true)
                   .pushAndRemoveUntil(
@@ -99,7 +99,7 @@ class _ProfilPageState extends State<ProfilPage> {
     }
 
     _showAlertDialog(BuildContext context, String err) {
-      Widget okButton = FlatButton(
+      Widget okButton = ElevatedButton(
         child: Text("OK"),
         onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
       );
@@ -270,7 +270,7 @@ class _ProfilPageState extends State<ProfilPage> {
                                 color: purpleColor,
                                 borderRadius: BorderRadius.circular(20)),
                             // ignore: deprecated_member_use
-                            child: FlatButton(
+                            child: ElevatedButton(
                               onPressed: () {
                                 _updatedata();
                               },

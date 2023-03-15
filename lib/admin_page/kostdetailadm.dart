@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,7 +59,7 @@ class KostDetailA extends StatefulWidget {
 class _KostDetailAState extends State<KostDetailA> {
   _showAlertDialog2(BuildContext context) {
     // ignore: deprecated_member_use
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
       child: const Text("OK"),
       onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
     );
@@ -185,7 +186,7 @@ class _KostDetailAState extends State<KostDetailA> {
               if (response['response_status'] == "OK") {
                 prefs.setBool('slogin', true);
                 // ignore: deprecated_member_use
-                Widget okButton = FlatButton(
+                Widget okButton = ElevatedButton(
                   child: const Text("OK"),
                   onPressed: () => Navigator.of(context, rootNavigator: true)
                       .pushAndRemoveUntil(
@@ -217,7 +218,7 @@ class _KostDetailAState extends State<KostDetailA> {
 
     _showAlertDialogBerhasil(BuildContext context) {
       // ignore: deprecated_member_use
-      Widget okButton = FlatButton(
+      Widget okButton = ElevatedButton(
         child: const Text("OK"),
         onPressed: () => Navigator.of(context, rootNavigator: true)
             .pushAndRemoveUntil(
@@ -241,7 +242,7 @@ class _KostDetailAState extends State<KostDetailA> {
 
     _showAlertDialog(BuildContext context) {
       // ignore: deprecated_member_use
-      Widget okButton = FlatButton(
+      Widget okButton = ElevatedButton(
         child: const Text("OK"),
         onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
       );
@@ -262,13 +263,17 @@ class _KostDetailAState extends State<KostDetailA> {
 
     //  edit foto function
     Future editFoto() async {
-      final uri = Uri.parse("http://sofiaal.slkbankum.com/api/editfoto.php");
-      var request = http.MultipartRequest('POST', uri);
-      var foto = '';
-      request.fields['id'] = widget.id;
-      var pic = await http.MultipartFile.fromPath("foto", _imageFile.path);
-      request.files.add(pic);
-      var response = await request.send();
+      Dio dio = new Dio();
+      String fileName = _imageFile.path.split('/').last;
+      var formData = FormData.fromMap({
+        'id': widget.id,
+        'foto':
+            await MultipartFile.fromFile(_imageFile.path, filename: fileName)
+      });
+      // final uri = Uri.parse("http://sofiaal.slkbankum.com/api/editfoto.php");
+      Response response = await dio.post(
+          "http://sofiaal.slkbankum.com/api/editfoto.php",
+          data: formData);
       if (response.statusCode == 200) {
         _showAlertDialogBerhasil(context);
       } else {
@@ -287,7 +292,7 @@ class _KostDetailAState extends State<KostDetailA> {
           var response = json.decode(res.body);
           if (response['response_status'] == "OK") {
             prefs.setBool('slogin', true);
-            Widget okButton = FlatButton(
+            Widget okButton = ElevatedButton(
               child: const Text("OK"),
               onPressed: () => Navigator.of(context, rootNavigator: true)
                   .pushAndRemoveUntil(
@@ -382,9 +387,8 @@ class _KostDetailAState extends State<KostDetailA> {
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: _imageFile == null
-                                ? AssetImage(
-                                    // ignore: unnecessary_brace_in_string_interps
-                                    'assets/${widget.imageUrl}')
+                                ? NetworkImage(
+                                    "http://sofiaal.slkbankum.com/api/image/${widget.imageUrl}")
                                 : FileImage(_imageFile),
                           ),
                         ),
@@ -513,44 +517,9 @@ class _KostDetailAState extends State<KostDetailA> {
                     maxLines: 1,
                     textInputAction: TextInputAction.done,
                   ),
-                  // const SizedBox(
-                  //   height: 19,
-                  // ),
-                  // // ignore: prefer_const_constructors
-
                   const SizedBox(
                     height: 10,
                   ),
-                  // ignore: prefer_const_constructors
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left: 20),
-                  //   child: const Text(
-                  //     "Kecamatan",
-                  //     style: KTextStyle.textFieldHeading,
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left: 25),
-                  //   child: DropdownButtonHideUnderline(
-                  //     child: DropdownButton(
-                  //       hint: const Text("--Kecamatan--"),
-                  //       value: _kecamatan,
-                  //       items: _listkecamatan.map((value) {
-                  //         return DropdownMenuItem(
-                  //           child: Text(value),
-                  //           value: value,
-                  //         );
-                  //       }).toList(),
-                  //       onChanged: (value) {
-                  //         setState(() {
-                  //           _kategori =
-                  //               value; //Untuk memberitahu _valFriends bahwa isi nya akan diubah sesuai dengan value yang kita pilih
-                  //         });
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

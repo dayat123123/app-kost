@@ -37,14 +37,16 @@ dependencies:
   get: ^4.6.5
   google_fonts: ^3.0.1
   shared_preferences: ^2.0.15
-  http : any
+  http: ^0.13.5
   url_launcher: ^6.1.6
   flutter_launch: ^0.3.0
   flutter_screenutil: ^5.5.4
   map_launcher: ^2.4.0
   rating_bar: ^0.2.0
-  image_picker: ^0.8.6
+  image_picker: ^0.8.7
   flutter_bloc: ^7.1.0
+  mime: ^1.0.4
+  dio: ^5.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

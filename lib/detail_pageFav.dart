@@ -60,7 +60,7 @@ class DetailKostFav extends StatefulWidget {
 
 class _DetailKostFavState extends State<DetailKostFav> {
   _showAlertDialog(BuildContext context) {
-    Widget okButton = FlatButton(
+    Widget okButton = ElevatedButton(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -91,8 +91,8 @@ class _DetailKostFavState extends State<DetailKostFav> {
       ),
       content: Row(
         children: [
-          Image.asset(
-            'assets/${widget.imageUrl}',
+          Image.network(
+            'http://sofiaal.slkbankum.com/api/image/${widget.imageUrl}',
             height: 50,
           ),
           const SizedBox(
@@ -135,7 +135,7 @@ class _DetailKostFavState extends State<DetailKostFav> {
         var response = json.decode(res.body);
         if (response['response_status'] == "OK") {
           prefs.setBool('slogin', true);
-          Widget okButton = FlatButton(
+          Widget okButton = ElevatedButton(
             child: Text(
               "OK",
               style: blackTextStyle.copyWith(fontSize: 20),
@@ -238,8 +238,8 @@ class _DetailKostFavState extends State<DetailKostFav> {
         bottom: false,
         child: Stack(
           children: [
-            Image.asset(
-              'assets/${widget.imageUrl}',
+            Image.network(
+              'http://sofiaal.slkbankum.com/api/image/${widget.imageUrl}',
               width: MediaQuery.of(context).size.width,
               height: 350,
               fit: BoxFit.cover,
@@ -413,8 +413,8 @@ class _DetailKostFavState extends State<DetailKostFav> {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
-                                  child: Image.asset(
-                                    "assets/photo1.png",
+                                  child: Image.network(
+                                    "http://sofiaal.slkbankum.com/api/image/${widget.imageUrl}",
                                     width: 110,
                                     height: 88,
                                     fit: BoxFit.cover,
@@ -468,7 +468,7 @@ class _DetailKostFavState extends State<DetailKostFav> {
                         ),
                         height: 45,
                         width: MediaQuery.of(context).size.width - (2 * edge),
-                        child: FlatButton(
+                        child: ElevatedButton(
                           onPressed: () async {
                             await FlutterLaunch.launchWhatsapp(
                               phone: '6282388623670',
@@ -476,10 +476,6 @@ class _DetailKostFavState extends State<DetailKostFav> {
                                   'Hi ${widget.id},Saya mau order ${widget.name} untuk hari ini, apakah tersedia?',
                             );
                           },
-                          color: purpleColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(17),
-                          ),
                           child: Text(
                             'Book Now',
                             style: whiteTextStyle.copyWith(

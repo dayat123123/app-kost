@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:real_sokost/admin_page/kostdetailadm.dart';
+import 'package:real_sokost/admin_page/tambahdata.dart';
 import 'package:real_sokost/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../button_navbar_item.dart';
 import '../space.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +19,37 @@ class HomeAdmin extends StatefulWidget {
 }
 
 class _HomeAdminState extends State<HomeAdmin> {
+  bool slogin = false;
+  String id_user = "";
+  String username = "";
+  String email = "";
+  String nohp = "";
+  String password = "";
+  String nama = "";
+  _cekLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      slogin = prefs.getBool('slogin') ?? false;
+      username = prefs.getString('username') ?? "";
+      id_user = prefs.getString('id_user') ?? "";
+      email = prefs.getString('email') ?? "";
+      password = prefs.getString('password') ?? "";
+      nohp = prefs.getString('nohp') ?? "";
+      nama = prefs.getString('nama') ?? "";
+      print(nama);
+      print(nohp);
+      print(email);
+      print(username);
+      print(id_user);
+      print(password);
+    });
+  }
+
+  void initState() {
+    super.initState();
+    _cekLogin();
+  }
+
   Future<List<Space>> getDataMakanan() async {
     final response = await http
         .get(Uri.parse('http://sofiaal.slkbankum.com/api/list_kost.php'));
@@ -25,7 +58,7 @@ class _HomeAdminState extends State<HomeAdmin> {
       List jsonResponse = jsonDecode(response.body);
       return jsonResponse
           .map((data) => Space.fromJson(data))
-          .where((o) => o.id != 200)
+          .where((o) => o.id_user == id_user)
           .toList();
     } else {
       throw Exception("Failed to load data");
@@ -98,6 +131,21 @@ class _HomeAdminState extends State<HomeAdmin> {
               child: BottomNavbarItem(
                 imageUrl: 'assets/home.png',
                 isActive: true,
+              ),
+            ),
+            InkWell(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return TambahData(
+                    id: id_user,
+                    nowa: nohp,
+                  );
+                }));
+              },
+              child: BottomNavbarItem(
+                imageUrl: 'assets/home.png',
+                isActive: false,
               ),
             ),
             InkWell(
@@ -184,7 +232,8 @@ class _HomeAdminState extends State<HomeAdmin> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
-                    image: AssetImage('assets/${space.imageUrl}'),
+                    image: NetworkImage(
+                        "http://sofiaal.slkbankum.com/api/image/${space.imageUrl}"),
                     fit: BoxFit.contain,
                   ),
                 ),
